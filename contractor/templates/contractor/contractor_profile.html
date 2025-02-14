@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}View contractor profile{% endblock %}
+
+{% block extra_head_content %}
+<script>
+    window.availability_json = {{ availability_json | safe }};
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>This is the profile for contractor {{ contractor.user.username }}</h1>
+<form id="profileForm" method="post">
+    {{ profile_form |crispy }}
+    {% csrf_token %}
+    <div id="availability-calendar"></div>
+    <button type="submit" class="btn btn-secondary">Submit</button>
+</form>
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="module" src="{% static 'js/contractorProfile.js' %}"></script>
+{% endblock %}

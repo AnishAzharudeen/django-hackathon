@@ -1,0 +1,32 @@
+CONTRACTOR_SKILLS_CHOICES = [
+    ('carpentry', 'Carpentry'),
+    ('plumbing', 'Plumbing'),
+    ('electrical', 'Electrical'),
+    ('masonry', 'Masonry'),
+    ('hvac', 'HVAC'),
+    ('painting', 'Painting and decorating'),
+    ('roofing', 'Roofing'),
+    ('landscaping', 'Landscaping'),
+    ('tiling', 'Tiling'),
+    ('drywall', 'Drywall installation and finishing'),
+    ('insulation', 'Insulation'),
+    ('flooring', 'Flooring'),
+]
+
+CONTRACTOR_LOCATIONS_CHOICES = [
+    ('ascot', 'Ascot'),
+    ('bracknell', 'Bracknell'),
+    ('crowthorne', 'Crowthorne'),
+    ('earley', 'Earley'),
+    ('eton', 'Eton'),
+    ('hungerford', 'Hungerford'),
+    ('maidenhead', 'Maidenhead'),
+    ('newbury', 'Newbury'),
+    ('reading', 'Reading'),
+    ('sandhurst', 'Sandhurst'),
+    ('slough', 'Slough'),
+    ('thatcham', 'Thatcham'),
+    ('windsor', 'Windsor'),
+    ('wokingham', 'Wokingham'),
+    ('woodley', 'Woodley'),
+]
