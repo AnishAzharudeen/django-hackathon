@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     skills = ArrayField(models.CharField(max_length=100, choices=SKILLS_CHOICES), blank=True, null=True)
     locations = ArrayField(models.CharField(max_length=100, choices=LOCATIONS_CHOICES), blank=True, null=True)
     availability = ArrayField(models.DateField(), blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username
