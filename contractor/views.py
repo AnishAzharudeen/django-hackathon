@@ -33,10 +33,11 @@ def contractor_profile(request, contractor_id):
     # Contractors details packaged in a dictionary for the template
     contractor_pretty = {
         'username': contractor.user.username,
-        'profile_image': contractor.profile_image.url,
+        
         'skills': contractor.skills,
         'locations': contractor.locations,
-        'availability': contractor.availability
+        'availability': contractor.availability,
+        'bio': contractor.bio
     }
     return render(request, 'contractor/contractor_profile.html', {
         'contractor': contractor_pretty,
