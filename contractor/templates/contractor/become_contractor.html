@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Become a contractor{% endblock %}
+
+{% block content %}
+<div>
+    <p>Want to start taking on jobs as a contractor? Simply Tells us your skills, locations, and dates that you
+        are available to work.
+    </p>
+    <form id="profileForm" method="post">
+        {{ form |crispy }}
+        {% csrf_token %}
+        <div id="availability-calendar"></div>
+        <button type="submit" class="btn btn-secondary">Submit</button>
+    </form>
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script type="module" src="{% static 'js/contractorProfile.js' %}"></script>
+{% endblock %}

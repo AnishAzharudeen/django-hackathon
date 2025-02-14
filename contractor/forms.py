@@ -1,10 +1,10 @@
 from django import forms
-from .models import ContractorProfile
+from .models import UserProfile
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 
-class ContractorProfileForm(forms.ModelForm):
+class ContractorDetailsForm(forms.ModelForm):
     class Meta:
-        model = ContractorProfile
+        model = UserProfile
         fields = ['skills', 'locations', 'availability']
         
     SKILLS_CHOICES = CONTRACTOR_SKILLS_CHOICES
