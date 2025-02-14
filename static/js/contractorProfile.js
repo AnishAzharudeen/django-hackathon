@@ -1,14 +1,19 @@
-console.log("hello from contractorProfile.js");
-
 const { Calendar } = window.VanillaCalendarPro;
 
 let selectedDates = [];
+
+if (window.availability_json) {
+    selectedDates = window.availability_json;
+}
+
+const availabilityInput = document.getElementById("id_availability");
 
 const options = {
     selectedDates: selectedDates,
     selectionDatesMode: "multiple",
     onClickDate(self) {
         console.log(self.context.selectedDates);
+        availabilityInput.value = self.context.selectedDates.join();
     },
 };
 
