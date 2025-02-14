@@ -12,7 +12,6 @@ const options = {
     selectedDates: selectedDates,
     selectionDatesMode: "multiple",
     onClickDate(self) {
-        console.log(self.context.selectedDates);
         availabilityInput.value = self.context.selectedDates.join();
     },
 };
