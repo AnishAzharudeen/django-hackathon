@@ -1,8 +1,28 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}This is the homepage{% endblock %}
 
 {% block content %}
-<h1>You are viewing the homepage</h1>
+<div class="hero-image">
+    <div class="hero-text">
+        <h1>Welcome to Link Forge</h1>
+        <p>Your tagline goes here</p>
+    </div>
+</div>
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Section 1</h2>
+            <p>Some text about this section.</p>
+            <img src="{% static 'images/section1.jpg' %}" alt="Section 1 Image" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2>Section 2</h2>
+            <p>Some text about this section.</p>
+            <img src="{% static 'images/section2.jpg' %}" alt="Section 2 Image" class="img-fluid">
+        </div>
+    </div>
+</div>
 {% endblock %}
