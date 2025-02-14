@@ -66,45 +66,31 @@ Home page HTML in place
 Home page Styling via CSS in place
 Possibility of some Javascript for modals or Hero-image interactivity/ movement
 
-5. ##### Product range/Product Pagination
+5. #####
 
-As a customer I can **click a product range icon to see a list of all products in the range and likewise click a product to see a products features** so that I can **easily navigate the stores inventory and take in the details of any product I am interested in**
 
 ##### Acceptance Criteria
-I can see Paginated Cards for product ranges on the Home page
-These lead to a product Range page with a paginated list of products that in turn lead to a product features page for each product
+
 ##### Tasks
-Create Suitable product range html templates and views
-Create Suitable product information templates and views
-Style the range and product information pages with CSS
-Have a product model in models.py that has all fields needed for the product
+
 
 6. ##### Admin Manage Products
 
-As an admin **I want to be able to add, update or delete products** so that I can **manage the product catalog**
+
 
 ##### Acceptance Criteria
-The admin should be able to add new products with name, description, price, images, and category.
-The admin should be able to update product details (e.g., price, description).
-The admin should be able to remove products from the catalog.
-The admin should be able to view a list of all products
+
 ##### Tasks
-Create a product management page for admins
-Implement form to add new products
-Implement functionality to update product details.
-Implement functionality to delete products from the catalog.
+
 
 7. ##### 
 
 
 
 ##### Acceptance Criteria
-Product cart visible to customer and has link
-Customer can add items to cart on click
+
 ##### Tasks
-Product Cart has separate page/modal with relevant form/html
-Add to Cart button is implemented as part of product detail html
-Relevant views and urls updated
+
 
 ### Should-Have User Stories
 
