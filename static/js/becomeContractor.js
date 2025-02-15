@@ -14,7 +14,7 @@ const skillsSelect = new SlimSelect({
     },
     events: {
         afterChange: function (info) {
-            console.log(info);
+            // Handle required fields
             skillsIsEmpty = info.length === 0;
             submitButton.disabled = skillsIsEmpty || locationsIsEmpty;
         },
@@ -29,7 +29,7 @@ const locationsSelect = new SlimSelect({
     },
     events: {
         afterChange: function (info) {
-            console.log(info);
+            // Handle required fields
             locationsIsEmpty = info.length === 0;
             submitButton.disabled = skillsIsEmpty || locationsIsEmpty;
         },
@@ -42,8 +42,9 @@ const locationsSelect = new SlimSelect({
 const availabilityHiddenInput = document.getElementById("availability-hidden");
 const options = {
     selectedDates: [],
-    selectionDatesMode: "multiple",
+    selectionDatesMode: "multiple", // to make read-only, set to "false"
     onClickDate(self) {
+        // Ensure hidden input stays in sync with selected dates
         availabilityHiddenInput.value = self.context.selectedDates.join();
     },
 };
