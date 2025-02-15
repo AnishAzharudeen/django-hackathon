@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile, ContractorRating
 from .forms import ContractorDetailsForm
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
@@ -71,4 +71,5 @@ def become_contractor(request):
 
 def contractor_detail(request, user_id):
     contractor = get_object_or_404(UserProfile, user_id=user_id)
-    return render(request, 'contractor/contractdetail.html', {'contractor': contractor})
+    ratings = ContractorRating.objects.filter(contractor=user_id)
+    return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings})

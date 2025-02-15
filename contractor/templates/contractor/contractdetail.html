@@ -9,14 +9,14 @@
         <!-- Contractor title goes in these h1 tags -->
         <h1 class="contractor-title">{{ contractor.user.username }}</h1>
         <!-- Contractor skill goes before the | the post's created date goes after -->
-        <p class="contractor-subtitle">Skills: {{ contractor.skills | join:", " }} </p>
-        <p class="contractor-locations"> Locations: {{ contractor.locations | join:", "  }}</p>
+        <p class="contractor-subtitle"><strong>Skills:</strong> {{ contractor.skills | join:", " }} </p>
+        <p class="contractor-locations"><strong> Locations:</strong> {{ contractor.locations | join:", "  }}</p>
         <p class="contractor-availability">
-            Availability: 
+             
             <table class="availability-table">
               <thead>
                 <tr>
-                  <th>Date</th>
+                  <th>Availability</th>
                 </tr>
               </thead>
               <tbody>
@@ -28,7 +28,43 @@
               </tbody>
             </table>
           </p>
+          <p class="contractor-rating">
+          <strong>Average Rating:</strong>
+          {% if contractor.average_rating %}
+            <div class="rating">
+              {% for i in "12345" %}
+                {% if i|add:"0" <= contractor.average_rating %}
+                  <i class="fas fa-star"></i>
+                {% else %}
+                  <i class="far fa-star"></i>
+                {% endif %}
+              {% endfor %}
+              ({{ contractor.average_rating|floatformat:1 }} / 5)
+            </div>
+          {% else %}
+            No ratings yet
+          {% endif %}
+        </p>
+        <div class="contractor-reviews">
+            <h3>Reviews:</h3>
+            {% for rating in ratings %}
+              <div class="review">
+                <p><strong>{{ rating.creator.username }}:</strong> {{ rating.content }}
+                    <div class="rating">
+                        {% for i in "12345" %}
+                        {% if i|add:"0" <= rating.rating %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </p>
+              </div>
+            {% endfor %}
+          </div>
         </div>
+
         <div class="d-none d-md-block col-md-6 masthead-image">
             <img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder">
           </div>
@@ -43,6 +79,7 @@
         <!-- The post content goes inside the card-text. -->
         <!-- Use the | safe filter inside the template tags -->
         <p class="card-text">
+            <strong>Experience:</strong>
           {{ contractor.bio | safe }}
         </p>
       </div>

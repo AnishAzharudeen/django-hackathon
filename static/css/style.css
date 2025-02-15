@@ -84,3 +84,20 @@ main {
 .container .row .col-md-6 {
     margin-bottom: 20px;
 }
+
+
+
+.rating {
+    display: flex;
+    align-items: center;
+
+}
+
+.rating .fa-star {
+    color: #c508d6; /* Gold color for filled stars */
+    margin-right: 5px;
+}
+
+.rating .fa-star.far {
+    color: #ccc; /* Light grey color for empty stars */
+}
