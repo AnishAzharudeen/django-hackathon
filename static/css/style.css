@@ -7,3 +7,17 @@ body {
     padding: 0;
     background: rgb(35, 80, 69);
 }
+
+
+.availability-date {
+    display: block;
+    font-weight: bold;
+    color: #dde5ec;
+    margin-bottom: 5px;
+}
+
+.reduced-size {
+    width: 100%;
+    max-width: 300px; /* Adjust the max-width as needed */
+    height: auto;
+}

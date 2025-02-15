@@ -65,3 +65,10 @@ def become_contractor(request):
     return render(request, 'contractor/become_contractor.html', {
         'form': form
     })
+    
+    
+
+
+def contractor_detail(request, user_id):
+    contractor = get_object_or_404(UserProfile, user_id=user_id)
+    return render(request, 'contractor/contractdetail.html', {'contractor': contractor})
