@@ -49,17 +49,7 @@
             <h3>Reviews:</h3>
             {% for rating in ratings %}
               <div class="review">
-                <p><strong>{{ rating.creator.username }}:</strong> {{ rating.content }}
-                    <div class="rating">
-                        {% for i in "12345" %}
-                        {% if i|add:"0" <= rating.rating %}
-                            <i class="fas fa-star"></i>
-                        {% else %}
-                            <i class="far fa-star"></i>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </p>
+                <p><strong>{{ rating.creator.username }}:</strong> {{ rating.content }}</p>
               </div>
             {% endfor %}
           </div>
@@ -86,8 +76,29 @@
     </div>
   </div>
 </div>
-  
+<!-- If the user is authenticated, display the form -->
+<div class="container">
+    <div class="row">
+      <div class="col card mb-4 mt-3 left top">
+        <div class="card-body">
+            {% if user.is_authenticated %}
+          <h3>Leave a Review:</h3>
+          <form id="contractoratingform"method="post" style="margin-top: 1.3em;">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+            {% else %}
+            <p style="color: rgb(11, 34, 37);"><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>
+            {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
     
+
+
+  
 
 {% endblock content %}
 
