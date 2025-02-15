@@ -1,0 +1,60 @@
+{% extends 'base.html' %} {% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<div class="masthead">
+  <div class="container">
+    <div class="row g-0">
+      <div class="col-md-6 masthead-text">
+        <!-- Contractor title goes in these h1 tags -->
+        <h1 class="contractor-title">{{ contractor.user.username }}</h1>
+        <!-- Contractor skill goes before the | the post's created date goes after -->
+        <p class="contractor-subtitle">Skills: {{ contractor.skills | join:", " }} </p>
+        <p class="contractor-locations"> Locations: {{ contractor.locations | join:", "  }}</p>
+        <p class="contractor-availability">
+            Availability: 
+            <table class="availability-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for date in contractor.availability %}
+                  <tr>
+                    <td class="availability-date">{{ date|date:"Y-m-d" }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </p>
+        </div>
+        <div class="d-none d-md-block col-md-6 masthead-image">
+            <img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder">
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col card mb-4  mt-3 left  top">
+      <div class="card-body">
+        <!-- The post content goes inside the card-text. -->
+        <!-- Use the | safe filter inside the template tags -->
+        <p class="card-text">
+          {{ contractor.bio | safe }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+  
+    
+
+{% endblock content %}
+
+{% block exxtra_scripts %}
+<script type="module" src="{% static 'js/contractorProfile.js' %}"></script>
+{% endblock %}
+
