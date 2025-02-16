@@ -1,0 +1,153 @@
+:root {
+    --main-color: #541388;
+    --secondary-color: #48AD5E;
+    --main-font: 'Poppins', sans-serif;
+    --secondary-font: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--main-font);
+    background-color: #A1A2A5;
+}
+
+main {
+    flex: 1;
+}
+
+.navbar {
+    font-family: var(--main-font);
+    background-color: var(--main-color);
+    color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.nav-link {
+    color: white; /* Set the text color to white */
+}
+
+.nav-link.active {
+    color: var(--secondary-color); /* Set the text color to the secondary color */
+}
+
+.brand {
+    color: white;
+}
+
+.footer {
+    font-family: var(--main-font);
+    background-color: var(--main-color);
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+.social {
+    color: white;
+}
+
+h2 {
+    color: var(--main-color);
+    font-family: var(--main-font);
+}
+
+.hero-image1 {
+    background-image: url('/static/images/heroimage1.png');
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-image2 {
+    background-image: url('/static/images/heroimage2.png');
+    background-size: cover;
+    background-position: center; /* Adjust as needed */
+    height: 400px;
+    width: 100%;
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-text {
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background color */
+    padding: 20px;
+    border-radius: 10px;
+    color: var(--secondary-color);
+    font-family: var(--secondary-font);
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.container .row .col-md-6 {
+    margin-bottom: 20px;
+}
+
+.img-fluid {
+    width: 60%;
+    height: auto;
+}
+
+
+
+
+
+.rating {
+    display: flex;
+    align-items: center;
+
+}
+
+.rating .fa-star {
+    color: #c508d6; /* Gold color for filled stars */
+    margin-right: 5px;
+}
+
+.rating .fa-star.far {
+    color: #ccc; /* Light grey color for empty stars */
+}
+
+
+.masthead-image img
+
+{ 
+    width: 100%;
+height: auto;
+object-fit: cover;
+border-radius: 15px;
+ }
+ .masthead-text {
+ padding: 20px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+
+.img-fluid {
+    width: 60%;
+    height: auto;
+
+}
