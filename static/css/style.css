@@ -128,3 +128,19 @@ h2 {
 .rating .fa-star.far {
     color: #ccc; /* Light grey color for empty stars */
 }
+
+
+.masthead-image img
+
+{ 
+    width: 100%;
+height: auto;
+object-fit: cover;
+border-radius: 15px;
+ }
+ .masthead-text {
+ padding: 20px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
