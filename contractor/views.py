@@ -3,9 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import UserProfile, ContractorRating
 from .forms import ContractorDetailsForm, ContractorRatingForm
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 # Create your views here.
 def contractor_profile(request, contractor_id):
 
@@ -75,11 +76,57 @@ def contractor_detail(request, user_id):
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
         if form.is_valid():
-            rating = form.save(commit=False)
-            rating.creator = request.user
-            rating.contractor = contractor.user
-            rating.save()
-            return redirect('contractor_detail', user_id=user_id)
+            review = form.save(commit=False)
+            review.creator = request.user
+           
+            review.contractor = contractor.user
+            review.save()
+            messages.add_message(
+            request, messages.SUCCESS,
+            'Review submitted and awaiting approval')
+            return redirect('contractordetail' , user_id=user_id)
     else:
         form = ContractorRatingForm()
-    return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings, 'form': form})
+        return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
+
+
+#  Edit and delete rating
+
+def review_edit(request, slug, comment_id):
+    """
+    view to edit comments
+    """
+    if request.method == "POST":
+
+        queryset = ContractorRating.objects.filter(status=1)
+        post = get_object_or_404(queryset, slug=slug)
+        review = get_object_or_404(Review, pk=review_id)
+        review_form = ContractorRatingForm(data=request.POST, instance=review)
+
+        if review_form.is_valid() and review.creator == request.user:
+            review = review_form.save(commit=False)
+            review.contractor = post
+            review.approved = False
+            review.save()
+            messages.add_message(request, messages.SUCCESS, 'Review Updated!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating Review!')
+
+    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
+
+
+def review_delete(request, slug, comment_id):
+    """
+    view to delete comment
+    """
+    queryset = ContractorRating.objects.filter(status=1)
+    post = get_object_or_404(queryset, slug=slug)
+    comment = get_object_or_404(Comment, pk=comment_id)
+
+    if comment.author == request.user:
+        comment.delete()
+        messages.add_message(request, messages.SUCCESS, 'Review deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
+
+    return HttpResponseRedirect(reverse('post_detail', args=[slug]))        

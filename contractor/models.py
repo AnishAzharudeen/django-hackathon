@@ -51,7 +51,7 @@ class ContractorRating(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creator')
     contractor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='contractor')
     rating = models.IntegerField(choices=STAR_RATINGS, default=1)
-    content = models.TextField()
+    review = models.TextField()
     approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

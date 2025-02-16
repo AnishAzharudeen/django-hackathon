@@ -55,8 +55,8 @@
                     </li>
                     {% if user.userprofile.is_contractor %}
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == contractor_profile %}active{% endif %}"
-                            aria-current="page" href="{% url 'contractor_profile' user.userprofile.id %}">View
+                        <a class="nav-link {% if request.path == contractordetail %}active{% endif %}"
+                            aria-current="page" href="{% url 'contractordetail' user.userprofile.id %}">View
                             Profile</a>
                     </li>
                     {% else %}

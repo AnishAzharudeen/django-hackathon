@@ -16,8 +16,8 @@ class ContractorDetailsForm(forms.ModelForm):
 class ContractorRatingForm(forms.ModelForm):
     class Meta:
         model = ContractorRating
-        fields = ['rating', 'content']
+        fields = ['rating', 'review']
         widgets = {
             'rating': forms.RadioSelect(choices=STAR_RATINGS),
-            'content': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+            'review': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }

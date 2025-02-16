@@ -49,7 +49,7 @@
             <h3>Reviews:</h3>
             {% for rating in ratings %}
               <div class="review">
-                <p><strong>{{ rating.creator.username }}:</strong> {{ rating.content }}</p>
+                <p><strong>{{ rating.creator.username }}:</strong> {{ rating.review }}</p>
               </div>
             {% endfor %}
           </div>
@@ -76,6 +76,50 @@
     </div>
   </div>
 </div>
+
+<!-- Displaying Comments -->
+
+     
+      <div class="card-body">
+        <!-- We want a for loop inside the empty control tags
+          to iterate through each comment in comments -->
+        {% for review in reviews %}
+        <div class="p-2 reviews
+          {% if  not review.approved and review.creator == user %}
+            faded{% elif not review.approved %} d-none{% endif %}">
+          <p class="font-weight-bold">
+            {{ review.creator }}
+            <span class="font-weight-normal">
+              {{ review.created_on }}
+            </span> wrote:
+          </p>
+          <div id="review{{ review.id }}">
+            {{ review.body | linebreaks }}
+          </div>
+          {% if not review.approved and review.creator == user %}
+          <p class="approval">
+            This review is awaiting approval
+          </p>
+          {% endif %}
+          {% if user.is_authenticated and review.creator == user %}
+          <button class="btn btn-delete btn-lg" data-review-id="{{ review.id }}">Delete</button>
+          <button class="btn btn-edit btn-lg" data-review-id="{{ review.id }}">Edit</button>
+          {% endif %}
+        </div>
+        <!-- Our for loop ends here -->
+        {% endfor %}
+      </div>
+      
+    </div>
+
+
+
+
+
+
+
+
+
 <!-- If the user is authenticated, display the form -->
 <div class="container">
     <div class="row">
@@ -83,7 +127,7 @@
         <div class="card-body">
             {% if user.is_authenticated %}
           <h3>Leave a Review:</h3>
-          <form id="contractoratingform"method="post" style="margin-top: 1.3em;">
+          <form id="contractoratingForm"method="post" style="margin-top: 1.3em;">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -95,6 +139,31 @@
       </div>
     </div>
   </div>
+
+  <!-- Delete confirmation modal -->
+  <div class="modal fade" id="deleteModal" tabindex="-1"
+  aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"
+          id="deleteModalLabel">Delete review?</h5>
+        <button type="button" class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete your review?
+        This action cannot be undone.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal">Close</button>
+        <a id="deleteConfirm" href="#" class="btn
+          btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
     
 
 
