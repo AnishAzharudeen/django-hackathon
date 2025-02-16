@@ -106,6 +106,12 @@ h2 {
     margin-bottom: 20px;
 }
 
+.img-fluid {
+    width: 60%;
+    height: auto;
+}
+
+
 
 
 

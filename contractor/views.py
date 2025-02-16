@@ -71,6 +71,7 @@ def become_contractor(request):
 
 
 def contractor_detail(request, user_id):
+    template= 'contractor/contractdetail.html'
     contractor = get_object_or_404(UserProfile, user_id=user_id)
     ratings = ContractorRating.objects.filter(contractor=user_id)
     if request.method == 'POST':
@@ -130,3 +131,25 @@ def review_delete(request, slug, review_id):
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
     return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
+
+
+
+# creating views for contractor listview
+from django.views import generic
+from .models import UserProfile
+
+from django.shortcuts import render
+
+class ContractorList(generic.ListView):
+    model = UserProfile
+    queryset= UserProfile.objects.filter(is_contractor=True)
+    template_name = 'contractor/contractor_list.html'
+    context_object_name = 'contractors'
+    paginate_by = 6
+
+  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    
