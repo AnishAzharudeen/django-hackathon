@@ -92,7 +92,7 @@ def contractor_detail(request, user_id):
 
 #  Edit and delete rating
 
-def review_edit(request, slug, comment_id):
+def review_edit(request, slug, review_id):
     """
     view to edit comments
     """
@@ -100,7 +100,7 @@ def review_edit(request, slug, comment_id):
 
         queryset = ContractorRating.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
-        review = get_object_or_404(Review, pk=review_id)
+        review = get_object_or_404(ContractorRating, pk=review_id)
         review_form = ContractorRatingForm(data=request.POST, instance=review)
 
         if review_form.is_valid() and review.creator == request.user:
@@ -115,18 +115,18 @@ def review_edit(request, slug, comment_id):
     return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
 
 
-def review_delete(request, slug, comment_id):
+def review_delete(request, slug, review_id):
     """
     view to delete comment
     """
     queryset = ContractorRating.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
-    comment = get_object_or_404(Comment, pk=comment_id)
+    review = get_object_or_404(ContractorRating, pk=review_id)
 
-    if comment.author == request.user:
-        comment.delete()
+    if review.creator == request.user:
+        review.delete()
         messages.add_message(request, messages.SUCCESS, 'Review deleted!')
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('post_detail', args=[slug]))        
+    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
