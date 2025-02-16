@@ -38,7 +38,7 @@ main {
 }
 
 .nav-link.active {
-    color: var(--secondary-color) !important; /* Set the text color to the secondary color */
+    color: var(--secondary-color); /* Set the text color to the secondary color */
 }
 
 .brand {
@@ -58,8 +58,13 @@ main {
     color: white;
 }
 
-.hero-image {
-    background-image: url('/static/images/hero.jpg');
+h2 {
+    color: var(--main-color);
+    font-family: var(--main-font);
+}
+
+.hero-image1 {
+    background-image: url('/static/images/heroimage1.png');
     background-size: cover;
     background-position: center;
     height: 400px;
@@ -71,10 +76,26 @@ main {
     align-items: center;
 }
 
+.hero-image2 {
+    background-image: url('/static/images/heroimage2.png');
+    background-size: cover;
+    background-position: center; /* Adjust as needed */
+    height: 400px;
+    width: 100%;
+    position: relative;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .hero-text {
-    background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a background color with transparency */
+    background-color: rgba(0, 0, 0, 0.5); /* Add a semi-transparent background color */
     padding: 20px;
     border-radius: 10px;
+    color: var(--secondary-color);
+    font-family: var(--secondary-font);
 }
 
 .container {
@@ -83,4 +104,9 @@ main {
 
 .container .row .col-md-6 {
     margin-bottom: 20px;
+}
+
+.img-fluid {
+    width: 60%;
+    height: auto;
 }
