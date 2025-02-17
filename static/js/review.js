@@ -1,7 +1,7 @@
 console.log("reviews.js loaded");
 const editButtons = document.getElementsByClassName("btn-edit");
 const reviewText = document.getElementById("id_review");
-const reviewForm = document.getElementById("contractorationForm");
+const reviewForm = document.getElementById("contractoratingForm");
 const submitButton = document.getElementById("submitButton");
 
 const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
