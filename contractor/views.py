@@ -205,8 +205,8 @@ class searchlist(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        # query = [self.request.GET.get("q")]
         query = self.request.GET.get("q")
+        query = query.lower()
 
         if not query:
             return UserProfile.objects.filter(is_contractor=True)
