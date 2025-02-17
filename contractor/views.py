@@ -152,4 +152,27 @@ class ContractorList(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-    
+
+
+from django.views import generic
+from django.db.models import Q
+
+# Search List Page
+class searchlist(generic.ListView):
+    queryset = UserProfile.objects.filter(is_contractor=True)
+    template_name = 'contractor/search_listing.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = [self.request.GET.get("q")]
+
+        if query != None:
+            queryset = UserProfile.objects.filter(
+                is_contractor=True and
+                (Q(skills__icontains=query) |
+                Q(locations__icontains=query))
+            )
+        else:
+            queryset = UserProfile.objects.filter(is_contractor=True)
+        
+        return queryset

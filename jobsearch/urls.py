@@ -24,5 +24,4 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),
     path('contractors/', include('contractor.urls')),
-    path('search-list/', views.searchlist.as_view())
 ]
