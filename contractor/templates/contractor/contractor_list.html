@@ -1,0 +1,42 @@
+<!-- filepath: /c:/Users/mhdaz/Documents/vscode-projects1/django-hackathon/django-hackathon/contractor/templates/contractor/contractor_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ContractorList{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>Contractor List</h1>
+  <div class="row">
+    {% for contractor in contractors %}
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title">{{ contractor.user.username }}</h5>
+            <p class="card-text"><strong>Skills:</strong> {{ contractor.skills | join:", " }}</p>
+            <div class="d-none d-md-block col-md-6 masthead-image">
+              <img src="{% static 'images/default.jpg' %}" class="img-fluid" alt="placeholder">
+            </div>
+            <p class="card-text"><strong>Average Rating:</strong>
+              {% if contractor.average_rating %}
+                <div class="rating">
+                  {% for i in "12345" %}
+                    {% if i|add:"0" <= contractor.average_rating %}
+                      <i class="fas fa-star"></i>
+                    {% else %}
+                      <i class="far fa-star"></i>
+                    {% endif %}
+                  {% endfor %}
+                  ({{ contractor.average_rating|floatformat:1 }} / 5)
+                </div>
+              {% else %}
+                No ratings yet
+              {% endif %}
+            </p>
+            <a href="{% url 'contractordetail' contractor.user.id %}" class="btn btn-primary">View Profile</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

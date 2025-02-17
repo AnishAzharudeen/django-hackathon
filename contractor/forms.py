@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserProfile
+from .models import UserProfile, ContractorRating, STAR_RATINGS
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 
 class ContractorDetailsForm(forms.ModelForm):
@@ -21,3 +21,11 @@ class BecomeContractorForm(forms.ModelForm):
         
     
     
+class ContractorRatingForm(forms.ModelForm):
+    class Meta:
+        model = ContractorRating
+        fields = ['rating', 'review']
+        widgets = {
+            'rating': forms.RadioSelect(choices=STAR_RATINGS),
+            'review': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
+        }

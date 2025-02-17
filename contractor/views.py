@@ -1,12 +1,13 @@
 import json
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from .models import UserProfile
-from .forms import ContractorDetailsForm, BecomeContractorForm
-from django.http import HttpResponse
+from .models import UserProfile, ContractorRating
+from .forms import ContractorDetailsForm, ContractorRatingForm, BecomeContractorForm
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
-
 # Create your views here.
 def contractor_profile(request, contractor_id):
 
@@ -78,6 +79,94 @@ def become_contractor(request):
             print(form.errors)
     # End post request handling
     return render(request, 'contractor/become_contractor.html', {
+        'form': form,
         'skills': CONTRACTOR_SKILLS_CHOICES,
         'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
+    
+    
+
+
+def contractor_detail(request, user_id):
+    template= 'contractor/contractdetail.html'
+    contractor = get_object_or_404(UserProfile, user_id=user_id)
+    ratings = ContractorRating.objects.filter(contractor=user_id)
+    if request.method == 'POST':
+        form = ContractorRatingForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.creator = request.user
+           
+            review.contractor = contractor.user
+            review.save()
+            messages.add_message(
+            request, messages.SUCCESS,
+            'Review submitted and awaiting approval')
+            return redirect('contractordetail' , user_id=user_id)
+    else:
+        form = ContractorRatingForm()
+        return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
+
+
+#  Edit and delete rating
+
+def review_edit(request, slug, review_id):
+    """
+    view to edit comments
+    """
+    if request.method == "POST":
+
+        queryset = ContractorRating.objects.filter(status=1)
+        post = get_object_or_404(queryset, slug=slug)
+        review = get_object_or_404(ContractorRating, pk=review_id)
+        review_form = ContractorRatingForm(data=request.POST, instance=review)
+
+        if review_form.is_valid() and review.creator == request.user:
+            review = review_form.save(commit=False)
+            review.contractor = post
+            review.approved = False
+            review.save()
+            messages.add_message(request, messages.SUCCESS, 'Review Updated!')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error updating Review!')
+
+    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
+
+
+def review_delete(request, slug, review_id):
+    """
+    view to delete comment
+    """
+    queryset = ContractorRating.objects.filter(status=1)
+    post = get_object_or_404(queryset, slug=slug)
+    review = get_object_or_404(ContractorRating, pk=review_id)
+
+    if review.creator == request.user:
+        review.delete()
+        messages.add_message(request, messages.SUCCESS, 'Review deleted!')
+    else:
+        messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
+
+    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
+
+
+
+# creating views for contractor listview
+from django.views import generic
+from .models import UserProfile
+
+from django.shortcuts import render
+
+class ContractorList(generic.ListView):
+    model = UserProfile
+    queryset= UserProfile.objects.filter(is_contractor=True)
+    template_name = 'contractor/contractor_list.html'
+    context_object_name = 'contractors'
+    paginate_by = 6
+
+  
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+    

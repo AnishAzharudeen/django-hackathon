@@ -4,25 +4,42 @@
 {% block title %}This is the homepage{% endblock %}
 
 {% block content %}
-<div class="hero-image">
+<div class="hero-image1">
     <div class="hero-text">
-        <h1>Welcome to Link Forge</h1>
-        <p>Your tagline goes here</p>
+        <h1>Welcome to Customer Connect</h1>
+        <p>'Quality Work, Seamless Connections'</p>
     </div>
 </div>
 
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <h2>Section 1</h2>
-            <p>Some text about this section.</p>
-            <img src="{% static 'images/section1.jpg' %}" alt="Section 1 Image" class="img-fluid">
+            <h2>Are You Looking for A reliable Tradesperson?</h2>
+            <p>If you're in search of a dependable tradesperson, look no further. With a large network of skilled
+                professionals who take pride in their craftsmanship and have a track record of satisfied customers, you can
+                trust that you're in good hands. Each month, thousands of searches are conducted by visitors seeking quality
+                tradespeople. Start your search today and find the reliable expert you need!</p>
         </div>
         <div class="col-md-6">
-            <h2>Section 2</h2>
-            <p>Some text about this section.</p>
-            <img src="{% static 'images/section2.jpg' %}" alt="Section 2 Image" class="img-fluid">
+            <img src="{% static 'images/section1.jpg' %}" alt="Section 1 Image" class="img-fluid">
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h2>Are you A tradesperson looking for extra work?</h2>
+            <p>If you're an expert in your field, take pride in your craftsmanship, and have a portfolio of happy customers,
+                then joining our site might be a great opportunity for you.
+
+                Becoming a member means that your business will be showcased in the thousands of searches conducted by website
+                visitors each month. Head over to the Become a contractor page to begin your membership application.</p>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'become_contractor' %}">
+                <img src="{% static 'images/section2.jpg' %}" alt="Section 2 Image" class="img-fluid">
+            </a>
+        </div>
+    </div>
+</div>
+</div>
 </div>
 {% endblock %}
