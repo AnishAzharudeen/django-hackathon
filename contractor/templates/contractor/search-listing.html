@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Search Area -->
+        <div class="search-area">
+            <form action="" method="get">
+                <p>Search for a specific skill or location:</p>
+                <input name="q" type="text" placeholder="Search skills or location...">
+                <button id="searchButton" type="submit" class="btn btn-primary btn-lg">Search</button>
+            </form>
+        </div>
+
+        <!-- Check if Logged In -->
+        <div class="filter-result">
+            {% if user.is_authenticated %}
+            <!-- Contractor Listing Posts -->
+            {% for contractor in userprofile_list %}
+            <div class="card result-card d-flex flex-row flex-nowrap align-content-center">
+                <div class="profile-img d-md-flex col-sm-auto col-md-2">
+                    <img src="{{ contractor.profile_image.url }}" class="scale img-fluid reduced-size" alt="LogoImg">
+                </div>
+                <div class="result-list d-flex flex-row flex-nowrap">
+                    <div class="result-name d-md-flex col-sm-auto col-md-2">
+                        <!-- Contractor Display Name -->
+                        <h5 class="text-center text-md-left">{{ contractor.user.username }}</h5>
+                        <!-- Rating -->
+                    </div>
+                </div>
+                <div class="result-list d-flex flex-row flex-nowrap">
+                    <div class="job-content d-flex flex-column flex-wrap d-none d-md-flex col-md-5">
+                        <ul class="d-flex flex-column flex-wrap text-capitalize result-listing-ul">
+                            <!-- Contractor Locations -->
+                            <li class="">
+                                <i class="fa-solid fa-location-dot"></i> {{ contractor.locations | join:", " }}
+                            </li>
+                            <!-- Contractor Skills -->
+                            <li class="">
+                                <i class="fa-solid fa-circle-info"></i> {{ contractor.skills | join:", " }}
+                            </li>
+                            <!-- Contact -->
+                            <li class="">
+                                <i class="fa-solid fa-calendar-days"></i> {{ contractor.availability | join:", " }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Profile Link -->
+                <div class="my-4 flex-shrink-0 mr-right d-md-flex col-auto align-content-center align-items-center justify-content-end">
+                    <a href="{% url 'contractor_profile' contractor.user_id %}"
+                        class="btn d-block w-100 d-sm-inline-block btn-light">View Profile</a>
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Prompts log in -->
+            {% else %}
+            <h5 class="posts-row">
+                You are not <b>logged in</b>.
+                <br>
+                Please <a class="link" href="{{ login_url }}">log in</a> or <a class="link"
+                    href="{{ signup_url }}">register</a> to access the search listing.
+            </h5>
+            {% endif %}
+
+            {% if is_paginated %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link btn-nav"> &laquo; PREV</a>
+                    </li>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}" class="page-link btn-nav"> NEXT &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

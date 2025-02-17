@@ -151,3 +151,39 @@ justify-content: center;
     height: auto;
 
 }
+
+.search-area {
+    display: flex;
+    border-radius: 10px;
+    padding: 10px 35px;
+}
+
+.filter-result {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    padding: 10px 35px;
+}
+
+.result-card {
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.profile-img {
+    align-self: center;
+}
+
+.result-list {
+    display: flex;
+}
+
+.job-content {
+    flex-direction: column;
+    padding: 1rem;
+}
+
+.result-listing-ul {
+    list-style-type: none;
+    flex-direction: column;
+}
