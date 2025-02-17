@@ -1,6 +1,64 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block extra_head_content %}
+<link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet">
+</link>
+<script>
+    window.availability_json = {{ availability_json | safe }};
+</script>
+{% endblock %}
 
 
 {% block content %}
-<h1>This is the edit profile page</h1>
+<div class="container">
+    <h1>Edit profile details</h1>
+    <form class="d-flex flex-column" id="profileForm" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-12 col-md-6 mt-4">
+                <label class="form-label" for="skills-select">Skills <span
+                        class="badge text-bg-danger ms-1">Required</span></label>
+                <select name="skills" id="skills-select" multiple>
+                    {% for skill in skills %}
+                    <option value="{{ skill.0 }}" {% if skill.0 in contractor.skills %}selected{% endif %}>{{ skill.1 }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+                <label class="form-label" for="locations-select">Locations <span
+                        class="badge text-bg-danger">Required</span></label>
+                <select name="locations" id="locations-select" multiple>
+                    {% for location in locations %}
+                    <option value="{{ location.0 }}" {% if location.0 in contractor.locations %}selected{% endif %}>
+                        {{ location.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-lg-6 mt-4 d-flex flex-column">
+                <label class="form-label" for="bio">Bio</label>
+                <textarea class="form-control flex-grow-1" name="bio" id="bio" cols="30" rows="10"
+                    placeholder="Tell us about yourself">{{ contractor.bio }}</textarea>
+            </div>
+            <div class="col-12 col-lg-6 mt-4">
+                <label class="form-label" for="availability">Availability</label>
+                <input type="hidden" name="availability" id="availability-hidden" value="">
+                <div id="availability-calendar"></div>
+            </div>
+
+        </div>
+        <button type="submit" id="submit-button" class="btn btn-primary align-self-center mt-4">Submit</button>
+    </form>
+
+
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+<script type="module" src="{% static 'js/editContractorProfile.js' %}"></script>
 {% endblock %}
