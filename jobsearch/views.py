@@ -6,6 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.views import generic
 from django.db.models import Q
 
+def index(request):
+    return render(request, 'index.html')
+
+def about(request):
+    return render(request, 'about.html')
 
 # Search List Page
 class searchlist(generic.ListView):
@@ -26,10 +31,3 @@ class searchlist(generic.ListView):
             queryset = UserProfile.objects.filter(is_contractor=True)
         
         return queryset
-
-
-def index(request):
-    return render(request, 'index.html')
-
-def about(request):
-    return render(request, 'about.html')
