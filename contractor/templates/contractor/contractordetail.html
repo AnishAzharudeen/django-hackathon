@@ -79,7 +79,9 @@
         </div>
       </div>
       <div class="d-none d-md-block col-md-6 masthead-image">
-        <img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder">
+        <!--<img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder"> -->
+        
+        <img src="{{ contractor.profile_image.url }}" class="scale" alt="{{ contractor.user.username}}">
       </div>
     </div>
   </div>
