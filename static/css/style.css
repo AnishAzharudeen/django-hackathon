@@ -189,3 +189,15 @@ justify-content: center;
     flex-direction: column;
 }
 
+.btn-primary {
+    font-family: var(--main-font);
+    border-color: var(--main-color);
+    background-color: var(--main-color);
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    border-color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: black;
+}
