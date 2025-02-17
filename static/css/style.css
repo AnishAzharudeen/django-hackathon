@@ -257,3 +257,54 @@ justify-content: center;
     background-color: var(--secondary-color);
     color: black;
 }
+
+
+/* Forms Design*/
+
+
+.register-form {
+    width: 100%;
+    max-width: 800px; /* Set a maximum width for the form container */
+    margin: 3% auto;
+    padding: 20px;
+    box-shadow: var(--smal-box-shadow);
+    border-radius: 8px;
+    border: 1px solid #ccc; /* Add a border around the form container */
+    background-color: #F5F2F2; /* Set a background color for the form container */
+}
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    text-emphasis-color:#ccc; 
+    background-color:  #7a4db3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-container input[type="text"],
+.form-container input[type="file"],
+.form-container textarea,
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddc8c8;
+    border-radius: 4px;
+}
+
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--main-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container button[type="submit"]:hover {
+    background-color: #94b3d3;
+}
