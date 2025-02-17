@@ -216,7 +216,7 @@ class searchlist(generic.ListView):
         return UserProfile.objects.filter(
             is_contractor=True
         ).filter(
-            Q(skills__overlap=[query]) | Q(locations__overlap=[query])
+            Q(skills__overlap_similar=[query]) | Q(locations__overlap_similar=[query])
         )
 
     def get_context_data(self, **kwargs):
