@@ -7,6 +7,14 @@
 Search List
 {% endblock %}
 
+{% block extra_head_content %}
+<link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet">
+</link>
+<script>
+    window.availability_json = {{ availability_json | safe }};
+</script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container-fluid">
@@ -29,10 +37,28 @@ Search List
                     <!-- Filter Form -->
                     <div class="offcanvas-body">
                         <div class="input-group flex-wrap flex-column">
-                            <form action="{% url 'advanced_search' %}" method="POST" class="align-content-left">
+                            <form method="GET" class="align-content-left">
                                 <p>Search for a specific skill or location:</p>
-                                {% csrf_token %}
-                                {% crispy search_form %}
+
+                                <!-- {% crispy search_form %} -->
+                                <label class="form-label" for="skills-select">Skills</label>
+                                <select name="skills" id="skills-select" multiple>
+                                    {% for skill in skills_choices %}
+                                    <option value="{{ skill.0 }}" {% if skill.0 in selected_skills %} selected
+                                        {%endif%}>{{ skill.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label class="form-label" for="locations-select">Locations</label>
+                                <select name="locations" id="locations-select" multiple>
+                                    {% for location in locations_choices %}
+                                    <option value="{{ location.0 }}" {% if location.0 in selected_locations %} selected
+                                        {%endif%}>
+                                        {{ location.1 }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label class="form-label" for="availability">Availability</label>
+                                <input type="hidden" name="availability" id="availability-hidden" value="">
+                                <div id="availability-calendar"></div>
                                 <button type="submit" class="btn btn-primary">Search</button>
                             </form>
                         </div>
@@ -53,9 +79,11 @@ Search List
             {% if user.is_authenticated %}
             <!-- Contractor Listing Posts -->
             {% for contractor in userprofile_list %}
-            <div class="card result-card d-flex flex-row align-content-center flex-wrap flex-sm-wrap flex-md-nowrap flex-lg-nowrap">
+            <div
+                class="card result-card d-flex flex-row align-content-center flex-wrap flex-sm-wrap flex-md-nowrap flex-lg-nowrap">
                 <div class="profile-img d-none d-sm-flex col-5 col-sm-3 col-md-2">
-                    <img src="{% if not contractor.profile_image %} {% static 'images/default.jpg' %} {% else %} {{ contractor.profile_image.url }} {% endif %}" class="scale img-fluid reduced-size" alt="LogoImg">
+                    <img src="{% if not contractor.profile_image %} {% static 'images/default.jpg' %} {% else %} {{ contractor.profile_image.url }} {% endif %}"
+                        class="scale img-fluid reduced-size" alt="LogoImg">
                 </div>
                 <div class="result-list d-flex flex-row flex-nowrap">
                     <div class="result-name flex-column d-md-flex align-items-start">
@@ -63,16 +91,15 @@ Search List
                         <h5 class="text-center text-md-left">{{ contractor.user.username }}</h5>
                         <!-- Rating -->
                         <p class="card-text"><strong>Average Rating:</strong>
-                        {% if contractor.average_rating %}
+                            {% if contractor.average_rating %}
                         <div class="rating">
                             {% for i in "12345" %}
-                            {% if i|add:"0" <= contractor.average_rating %}
-                            <i class="fas fa-star"></i>
-                            {% else %}
-                            <i class="far fa-star"></i>
-                            {% endif %}
-                            {% endfor %}
-                            ({{ contractor.average_rating|floatformat:1 }} / 5)
+                            {% if i|add:"0" <= contractor.average_rating %} <i class="fas fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                                {% endfor %}
+                                ({{ contractor.average_rating|floatformat:1 }} / 5)
                         </div>
                         {% else %}
                         Not Rated
@@ -100,7 +127,8 @@ Search List
                 </div>
 
                 <!-- Profile Link -->
-                <div class="my-4 flex-grow-1 flex-md-grow-0 flex-shrink-0 d-md-flex align-content-center align-items-center">
+                <div
+                    class="my-4 flex-grow-1 flex-md-grow-0 flex-shrink-0 d-md-flex align-content-center align-items-center">
                     <a href="{% url 'contractordetail' contractor.id %}"
                         class="btn d-block w-100 d-sm-inline-block btn-primary">View Profile</a>
                 </div>
@@ -135,3 +163,8 @@ Search List
 </div>
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+<script type="module" src="{% static 'js/contractorSearch.js' %}"></script>
+{% endblock %}

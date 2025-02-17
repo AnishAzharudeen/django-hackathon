@@ -11,46 +11,6 @@ from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 # Create your views here.
 
 
-# Either remove, or turn into contractor profile edit view (some logic
-# can be reused)
-def contractor_profile(request, contractor_id):
-    # Get the contractors UserProfile object. Automatically send 404 is the
-    # profile does not exist, or if it is not a contractor profile. 
-    contractor = get_object_or_404(UserProfile, pk=contractor_id, is_contractor=True)
-    # Next check whether the user is viewing their own profile. This is useful
-    # for permissinons as well as knowing what to render in the GET request.
-    is_own_profile = contractor.user == request.user
-
-    if request.method == 'POST':
-        if not is_own_profile:
-            return HttpResponse("You do not have permission to edit this profile")
-        form = ContractorDetailsForm(request.POST, instance=contractor)
-        if form.is_valid():
-            form.save()
-        else:
-            print("ERROR ERROR ERROR")
-
-    # Handle the GET request
-    # Create the form for the UserProfile instance
-    form = ContractorDetailsForm(instance=contractor)
-    # Convert the availability dates to JSON for the template
-    availability_json = json.dumps([str(date) for date in contractor.availability])
-    # Contractors details packaged in a dictionary for the template
-    contractor_pretty = {
-        'username': contractor.user.username,
-        
-        'skills': contractor.skills,
-        'locations': contractor.locations,
-        'availability': contractor.availability,
-        'bio': contractor.bio
-    }
-    return render(request, 'contractor/contractor_profile.html', {
-        'contractor': contractor_pretty,
-        'profile_form': form,
-        'availability_json': availability_json,
-        'is_own_profile': is_own_profile
-    })
-
 
 def split_string(string):
     if not string:
@@ -212,23 +172,33 @@ class searchlist(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        queryset = UserProfile.objects.filter(is_contractor=True)
         query = self.request.GET.get("q")
-
-        if not query:
-            return UserProfile.objects.filter(is_contractor=True)
+        skills = self.request.GET.getlist("skills")
+        locations = self.request.GET.getlist("locations")
+        availability = self.request.GET.getlist("availability")
+        if query:
+            query = query.lower()
+            queryset = queryset.filter(
+                Q(skills__icontains=query) | Q(locations__icontains=query)
+            )
+        if skills:
+            queryset = queryset.filter(skills__overlap=skills)
+        if locations:
+            queryset = queryset.filter(locations__overlap=locations)
         
+        if any(availability_date for availability_date in availability):
+            queryset = queryset.filter(availability__overlap=availability)
+        return queryset
         
-        query = query.lower()
-        
-        return UserProfile.objects.filter(
-            is_contractor=True
-        ).filter(
-            Q(skills__overlap=[query]) | Q(locations__overlap=[query])
-        )
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["search_form"] = SearchForm()
+        context["skills_choices"] = CONTRACTOR_SKILLS_CHOICES
+        context["locations_choices"] = CONTRACTOR_LOCATIONS_CHOICES
+        context["selected_skills"] = self.request.GET.getlist("skills")
+        context["selected_locations"] = self.request.GET.getlist("locations")
+        context["availability_json"] = json.dumps([str(date) for date in self.request.GET.getlist("availability")])
         return context
 
     
