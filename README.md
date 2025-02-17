@@ -19,6 +19,8 @@ The target audience is :
 Tradespeople/Contractors: Skilled professionals such as electricians, plumbers, and builders looking to create profiles, showcase their skills, and manage their availability to attract clients.
 Clients: Homeowners, property managers, and business owners searching for qualified contractors based on skills, location, and availability to complete their projects efficiently.
 
+Link to Project Board:(https://github.com/users/AnishAzharudeen/projects/14/views/1)
+
 ## User Stories
 
 1. ## Customer Registration 
@@ -145,6 +147,12 @@ Here are the basic wire-frames we used to establish the design for the site:
 
 ![colours](/assets/images-readme/coolers2.png)
 
+## Data Model 
+
+- ERD Model 
+
+
+
 ## AI Tools Usage
 
 ### Chat-GPT / Co pilot
@@ -208,6 +216,15 @@ Every time there is a change in data the user is alerted. For example when a rev
 ### Testing Results
 
 We used our team to manually test all views and forms in order to determin that our functionality was complete and without error
+
+## Responsiveness
+ All pages on the live site were tested with the default list of devices in Chrome Devtools. Special attention was given to ensuring the images and layout displayed optimally across screen breakpoints, with images specifically optimised for responsive viewing.
+
+## Lighthouse testing
+
+- [lighthouse1](/assets/images-readme/lighthouse1.png)
+- [lighthouse2](/assets/images-readme/lighthouse2.png)
+- [lighthouse3](/assets/images-readme/lighthouse3.png)
 
 ### Validation
 
@@ -329,17 +346,21 @@ DEBUG mode is disabled in the production environment to enhance security.
 
 Note: The difference between clone and fork is, you need permissions to push back to the original from a clone, but not a fork because a fork will be completely your own new project.
 
-## Reflection on Development Process
+## Reflection
 
-- 
+### Team work
+- We had to work as a team during this project, as it was only our second Hackathon. We had to ensure that git and github commands/operations were correctly observed so that the process was as smooth as possible. However there were some merge conflicts and issues which were dealt with by the team at the time. 
 
-### Challenges
+- We also had to make sure we were speaking all the time, so that no ones work was wiped over. To do this we used mainly slack messaging, whilst also having stand up and stand downs every day, and a middle of the day progress meeting. 
 
-- Most challenging aspects
+- We used a Miro board to plan and update tasks as we went along, ensuring everyone was on track and up to date with the project. 
 
 # Future features #
 
-- 
+- We would like in the future to add another section for the client whereby they can add in the work they need doing, like a job listing page that would connect automatically with available contractors. 
+
+- Another section we wish to implement in the future is an in site messaging app/system where clients can directly get in touch with contractors. 
+
 
 ### Acknowledgements
 

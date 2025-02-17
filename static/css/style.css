@@ -112,9 +112,6 @@ h2 {
 }
 
 
-
-
-
 .rating {
     display: flex;
     align-items: center;
@@ -233,4 +230,16 @@ justify-content: center;
 .btn-primary:hover {
     background-color: #0056b3;
     border-color: #0056b3;
+}
+.btn-primary {
+    font-family: var(--main-font);
+    border-color: var(--main-color);
+    background-color: var(--main-color);
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:active {
+    border-color: var(--secondary-color);
+    background-color: var(--secondary-color);
+    color: black;
 }
