@@ -79,7 +79,7 @@ def become_contractor(request):
             contractor.user = request.user
             contractor.is_contractor = True
             contractor.save()
-            return HttpResponse("You are now a contractor")
+            return redirect('index')
         else:
             print("Form is invalid")
             print(form.errors)
