@@ -89,7 +89,28 @@ def become_contractor(request):
         'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
     
+@login_required
+def edit_contractor_profile(request, user_profile_id):
+    if request.user.userprofile.id != user_profile_id:
+        return HttpResponse("You do not have permission to edit this profile")
+    contractor = get_object_or_404(UserProfile, id=user_profile_id)
+    if request.method == 'POST':
+        form = ContractorDetailsForm(request.POST, instance=contractor)
+        if form.is_valid():
+            form.save()
+            return redirect('contractordetail', user_profile_id=user_profile_id)
+        else:
+            print("ERROR ERROR ERROR")
+    # End POST request handling
+    print(contractor.skills)
     
+    availability_json = json.dumps([str(date) for date in contractor.availability])
+    return render(request, 'contractor/edit_contractor_profile.html', {
+        'skills': CONTRACTOR_SKILLS_CHOICES,
+        'locations': CONTRACTOR_LOCATIONS_CHOICES,
+        'contractor': contractor,
+        'availability_json': availability_json
+    })
 
 
 def contractor_detail(request, user_profile_id):
@@ -124,13 +145,6 @@ def contractor_detail(request, user_profile_id):
             'availability_json': availability_json,
             'is_own_profile': is_own_profile
         })
-
-@login_required
-def edit_contractor_profile(request, user_profile_id):
-    if request.user.userprofile.id != user_profile_id:
-        return HttpResponse("You do not have permission to edit this profile")
-    return render(request, 'contractor/edit_contractor_profile.html')
-
 
 
 #  Edit and delete rating
