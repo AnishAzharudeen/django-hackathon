@@ -2,14 +2,12 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import UserProfile, ContractorRating
-from .forms import ContractorDetailsForm, ContractorRatingForm, SearchForm
+from .forms import ContractorDetailsForm, ContractorRatingForm, BecomeContractorForm, SearchForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
-
-
 # Create your views here.
 def contractor_profile(request, contractor_id):
 
@@ -51,32 +49,48 @@ def contractor_profile(request, contractor_id):
     })
 
 
+def split_string(string):
+    if not string:
+        return []
+    return string.split(',')
+
 @login_required
 def become_contractor(request):
     profile = request.user.userprofile
     if profile.is_contractor:
         return HttpResponse("You are already a contractor")
     if request.method == 'POST':
-        form = ContractorDetailsForm(request.POST, instance=profile)
+        form_dict = {
+            'skills': request.POST.getlist('skills'),
+            'locations': request.POST.getlist('locations'),
+            'availability': split_string(request.POST.get('availability', '')),
+            'bio': request.POST.get('bio', '')
+        }
+        form = BecomeContractorForm(form_dict, instance=profile)
         if form.is_valid():
+            print("Form is valid")
             contractor = form.save(commit=False)
             contractor.user = request.user
             contractor.is_contractor = True
             contractor.save()
             return HttpResponse("You are now a contractor")
+        else:
+            print("Form is invalid")
+            print(form.errors)
     # End post request handling
-    form = ContractorDetailsForm(instance=profile)
     return render(request, 'contractor/become_contractor.html', {
-        'form': form
+        'form': form,
+        'skills': CONTRACTOR_SKILLS_CHOICES,
+        'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
     
     
 
 
-def contractor_detail(request, user_id):
+def contractor_detail(request, user_profile_id):
     template= 'contractor/contractdetail.html'
-    contractor = get_object_or_404(UserProfile, user_id=user_id)
-    ratings = ContractorRating.objects.filter(contractor=user_id)
+    contractor = get_object_or_404(UserProfile, id=user_profile_id)
+    ratings = ContractorRating.objects.filter(contractor=user_profile_id)
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
         if form.is_valid():
@@ -88,10 +102,17 @@ def contractor_detail(request, user_id):
             messages.add_message(
             request, messages.SUCCESS,
             'Review submitted and awaiting approval')
-            return redirect('contractordetail' , user_id=user_id)
+            return redirect('contractordetail' , user_id=user_profile_id)
     else:
         form = ContractorRatingForm()
-        return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
+        availability_json = json.dumps([str(date) for date in contractor.availability])
+        return render(request, 'contractor/contractordetail.html', {
+            'contractor': contractor,
+            'ratings': ratings, 
+            'form': form, 
+            'user': request.user,
+            'availability_json': availability_json
+        })
 
 
 #  Edit and delete rating
@@ -116,7 +137,7 @@ def review_edit(request, slug, review_id):
         else:
             messages.add_message(request, messages.ERROR, 'Error updating Review!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))    
 
 
 def review_delete(request, slug, review_id):
@@ -133,7 +154,7 @@ def review_delete(request, slug, review_id):
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))        
 
 
 

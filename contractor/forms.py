@@ -13,6 +13,14 @@ class ContractorDetailsForm(forms.ModelForm):
     skills = forms.MultipleChoiceField(choices=SKILLS_CHOICES, widget=forms.CheckboxSelectMultiple())
     locations = forms.MultipleChoiceField(choices=LOCATIONS_CHOICES, widget=forms.CheckboxSelectMultiple())
 
+
+class BecomeContractorForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['skills', 'locations', 'availability', 'bio']
+        
+    
+    
 class ContractorRatingForm(forms.ModelForm):
     class Meta:
         model = ContractorRating
