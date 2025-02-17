@@ -79,7 +79,6 @@ def become_contractor(request):
             print(form.errors)
     # End post request handling
     return render(request, 'contractor/become_contractor.html', {
-        'form': form,
         'skills': CONTRACTOR_SKILLS_CHOICES,
         'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
