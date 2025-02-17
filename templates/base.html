@@ -62,7 +62,7 @@
 
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == search_list %}active{% endif %}"
-                            aria-current="page" href="{% url 'search_list' %}">Profiles</a>
+                            aria-current="page" href="{% url 'search_list' %}">Search</a>
                     </li>
                     {% if user.userprofile.is_contractor %}
                     <li class="nav-item">
