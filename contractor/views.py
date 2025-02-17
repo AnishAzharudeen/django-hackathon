@@ -188,18 +188,23 @@ class searchlist(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        query = [self.request.GET.get("q")]
+        # query = [self.request.GET.get("q")]
+        query = self.request.GET.get("q")
 
-        if query == None:
-            queryset = UserProfile.objects.filter(is_contractor=True)
-        else:
-            queryset = UserProfile.objects.filter(
-                is_contractor=True and
-                (Q(skills__overlap=query) |
-                Q(locations__overlap=query))
-            )
+        if not query:
+            return UserProfile.objects.filter(is_contractor=True)
         
-        return queryset
+        return UserProfile.objects.filter(
+            is_contractor=True
+        ).filter(
+            Q(skills__overlap=[query]) | Q(locations__overlap=[query])
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = SearchForm()
+        return context
+
     
 # Advanced Search
 @login_required
@@ -208,20 +213,22 @@ def advanced_search(request):
     Allows users to make an advanced search
     """
 
+    search_form = SearchForm()
+
     if request.method == "POST":
         search_form = SearchForm(request.POST)
-        search_skills = request.POST.get('skills')
-        search_area = request.POST.get('locations')
-        queryset = UserProfile.objects.filter(skills=search_skills, locations=search_area)
+        search_skills = request.POST.getlist('skills')
+        search_area = request.POST.getlist('locations')
+        queryset = UserProfile.objects.filter(skills__overlap=search_skills, locations__overlap=search_area)
 
         return render(
             request, 'contractors/search_listing.html',
-            {"userprofile_list": queryset}
+            {"userprofile_list": queryset, 'search_form': search_form}
         )
     else:
-        search_form = SearchForm()
         queryset = UserProfile.objects.filter(is_contractor=True)
-        return render(
-            request, 'contractors/search_listing.html',
-            {"userprofile_list": queryset}
-        )
+
+    return render(
+        request, 'contractors/search_listing.html',
+        {"userprofile_list": queryset, 'search_form': search_form}
+    )

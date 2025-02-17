@@ -25,18 +25,22 @@ Search List
                         <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Advanced Search</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
+
+                    <!-- Filter Form -->
                     <div class="offcanvas-body">
-                        <div class="input-group flex-nowrap">
-                            <form action="" method="post" class="align-content-center">
+                        <div class="input-group flex-wrap flex-column">
+                            <form action="{% url 'advanced_search' %}" method="POST" class="align-content-left">
                                 <p>Search for a specific skill or location:</p>
-                                {{ search_form | crispy }}
                                 {% csrf_token %}
-                                <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+                                {% crispy search_form %}
+                                <button type="submit" class="btn btn-primary">Search</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Search Form -->
             <form action="" method="get" class="align-content-center">
                 <p>Search for a specific skill or location:</p>
                 <input name="q" type="text" placeholder="Search skills or location...">

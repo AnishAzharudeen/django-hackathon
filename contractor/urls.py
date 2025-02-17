@@ -10,5 +10,6 @@ urlpatterns = [
     path('contractor/<int:review_id>/edit/', views.review_edit, name='edit_review'),
     path('review/<int:review_id>/delete/', views.review_delete, name='delete_review'),
     path('contractors/', views.ContractorList.as_view(), name='contractor_list'),
-    path('search-list/', views.searchlist.as_view())
+    path('search-list/', views.searchlist.as_view(), name="search_list"),
+    path('advanced-search/', views.advanced_search, name="advanced_search"),
 ]
