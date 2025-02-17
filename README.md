@@ -231,7 +231,6 @@ We used our team to manually test all views and forms in order to determin that 
 
 All code has been validated through:
 - **HTML**: ![W3C Markup Validator](/assets/images-readme/htmlabout.png).
-- **HTML**: ![W3C Markup Validator](/assets/images-readme/).
   
 - **CSS**: ![W3C CSS Validator](/assets/images-readme/cssvalid.png). 
 
