@@ -4,21 +4,57 @@
 
 {% block title %}Become a contractor{% endblock %}
 
+{% block extra_head_content %}
+<link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet">
+</link>
+{% endblock %}
+
 {% block content %}
-<div>
-    <p>Want to start taking on jobs as a contractor? Simply Tells us your skills, locations, and dates that you
-        are available to work.
-    </p>
-    <form id="profileForm" method="post">
-        {{ form |crispy }}
+
+<div class="container">
+    <h1>Want to start taking on jobs as a contractor?</h1>
+    <p> Simply Tells us your skills, locations, and dates that you are available to work.</p>
+    <form class="d-flex flex-column" id="profileForm" method="post">
         {% csrf_token %}
-        <div id="availability-calendar"></div>
-        <button type="submit" class="btn btn-secondary">Submit</button>
+        <div class="row">
+            <div class="col-12 col-md-6 mt-4">
+                <label class="form-label" for="skills-select">Skills <span
+                        class="badge text-bg-danger ms-1">Required</span></label>
+                <select name="skills" id="skills-select" multiple>
+                    {% for skill in skills %}
+                    <option value="{{ skill.0 }}">{{ skill.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-md-6 mt-4">
+                <label class="form-label" for="locations-select">Locations <span
+                        class="badge text-bg-danger">Required</span></label>
+                <select name="locations" id="locations-select" multiple>
+                    {% for location in locations %}
+                    <option value="{{ location.0 }}">{{ location.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-12 col-lg-6 mt-4 d-flex flex-column">
+                <label class="form-label" for="bio">Bio</label>
+                <textarea class="form-control flex-grow-1" name="bio" id="bio" cols="30" rows="10"
+                    placeholder="Tell us about yourself"></textarea>
+            </div>
+            <div class="col-12 col-lg-6 mt-4">
+                <label class="form-label" for="availability">Availability</label>
+                <input type="hidden" name="availability" id="availability-hidden" value="">
+                <div id="availability-calendar"></div>
+            </div>
+
+        </div>
+        <button disabled type="submit" id="submit-button" class="btn btn-primary align-self-center mt-4">Submit</button>
     </form>
+
 
 </div>
 {% endblock %}
 
 {% block extra_scripts %}
-<script type="module" src="{% static 'js/contractorProfile.js' %}"></script>
+<script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+<script type="module" src="{% static 'js/becomeContractor.js' %}"></script>
 {% endblock %}

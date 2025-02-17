@@ -2,11 +2,12 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import UserProfile, ContractorRating
-from .forms import ContractorDetailsForm, ContractorRatingForm
+from .forms import ContractorDetailsForm, ContractorRatingForm, BecomeContractorForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 # Create your views here.
 def contractor_profile(request, contractor_id):
 
@@ -48,23 +49,39 @@ def contractor_profile(request, contractor_id):
     })
 
 
+def split_string(string):
+    if not string:
+        return []
+    return string.split(',')
+
 @login_required
 def become_contractor(request):
     profile = request.user.userprofile
     if profile.is_contractor:
         return HttpResponse("You are already a contractor")
     if request.method == 'POST':
-        form = ContractorDetailsForm(request.POST, instance=profile)
+        form_dict = {
+            'skills': request.POST.getlist('skills'),
+            'locations': request.POST.getlist('locations'),
+            'availability': split_string(request.POST.get('availability', '')),
+            'bio': request.POST.get('bio', '')
+        }
+        form = BecomeContractorForm(form_dict, instance=profile)
         if form.is_valid():
+            print("Form is valid")
             contractor = form.save(commit=False)
             contractor.user = request.user
             contractor.is_contractor = True
             contractor.save()
             return HttpResponse("You are now a contractor")
+        else:
+            print("Form is invalid")
+            print(form.errors)
     # End post request handling
-    form = ContractorDetailsForm(instance=profile)
     return render(request, 'contractor/become_contractor.html', {
-        'form': form
+        'form': form,
+        'skills': CONTRACTOR_SKILLS_CHOICES,
+        'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
     
     
