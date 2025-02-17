@@ -5,7 +5,7 @@
 {% url 'contact' as contact_url %}
 {% url 'become_contractor' as become_contractor_url %}
 {% url 'contractor_profile' user.userprofile.id as contractor_profile %}
-{% url 'contractordetail'  as contractordetail %}
+{% url 'contractordetail' contractor.user.id as contractordetail %}
 {% url 'contractor_list' as contractor_list  %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
@@ -67,7 +67,7 @@
                     {% if user.userprofile.is_contractor %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == contractordetail %}active{% endif %}"
-                            aria-current="page" href="{% url 'contractordetail' %}">View
+                            aria-current="page" href="{% url 'contractordetail' contractor.user.id %}">View
                             Profile</a>
                     </li>
                     {% else %}
