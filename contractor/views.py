@@ -159,7 +159,6 @@ from django.db.models import Q
 
 # Search List Page
 class searchlist(generic.ListView):
-    # queryset = UserProfile.objects.filter(is_contractor=True)
     template_name = 'contractor/search_listing.html'
     paginate_by = 10
 
