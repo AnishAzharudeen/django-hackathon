@@ -14,34 +14,31 @@
       <div class="col-md-6 masthead-text">
         <!-- Contractor title goes in these h1 tags -->
         <h1 class="contractor-title">{{ contractor.user.username }}</h1>
-        <!-- Contractor skill goes before the | the post's created date goes after -->
-        <p class="contractor-subtitle"><strong>Skills:</strong> {{ contractor.skills | join:", " }} </p>
-        <p class="contractor-locations"><strong> Locations:</strong> {{ contractor.locations | join:", " }}</p>
-        <p class="contractor-availability">
-          <strong>Availability:</strong>
+        {% if is_own_profile %}
+        <a class="btn btn-success align-self-start" href="{% url 'edit_contractor_profile' contractor.id %}">Edit
+          profile</a>
+        {% endif %}
+        <h2 class="h5 mb-1 mt-2">Skills</h2>
+        <div>
+          {% for skill in contractor.skills %}
+          <span class="badge text-bg-info">{{ skill }}</span>
+          {% endfor %}
+        </div>
+        <h2 class="h5 mb-1 mt-4">Locations</h2>
+        <div>
+          {% for location in contractor.locations %}
+          <span class="badge text-bg-info">{{ location }}</span>
+          {% endfor %}
+        </div>
+        <h2 class="h5 mb-1 mt-4">Availability:</h2>
         <div id="availability-calendar"></div>
-        <table class="availability-table">
-          <thead>
-            <tr>
-              <th>Availability</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for date in contractor.availability %}
-            <tr>
-              <td class="availability-date">{{ date|date:"Y-m-d" }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        </p>
-        <p class="contractor-experience">
-          <strong>Experience:</strong>
+
+        <h2 class="h5 mt-4 mb-1">Experience</h2>
+        <p class="contractor-experience mb-0">
           {{ contractor.bio | safe }}
         </p>
-        <p class="contractor-rating">
-          <strong>Average Rating:</strong>
-          {% if contractor.average_rating %}
+        <h2 class="h5 mt-4 mb-1">Average Rating:</h2>
+        {% if contractor.average_rating %}
         <div class="rating">
           {% for i in "12345" %}
           {% if i|add:"0" <= contractor.average_rating %} <i class="fas fa-star"></i>
@@ -54,8 +51,8 @@
         {% else %}
         No ratings yet
         {% endif %}
-        </p>
-        <div class="contractor-reviews">
+
+        <div class="contractor-reviews mt-4">
           <h3>Reviews:</h3>
           {% for rating in ratings %}
           <div class="review">
@@ -79,7 +76,9 @@
         </div>
       </div>
       <div class="d-none d-md-block col-md-6 masthead-image">
-        <img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder">
+        <!--<img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder"> -->
+        
+        <img src="{{ contractor.profile_image.url }}" class="scale" alt="{{ contractor.user.username}}">
       </div>
     </div>
   </div>
