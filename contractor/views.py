@@ -106,7 +106,7 @@ def contractor_detail(request, user_profile_id):
     else:
         form = ContractorRatingForm()
         availability_json = json.dumps([str(date) for date in contractor.availability])
-        return render(request, 'contractor/contractdetail.html', {
+        return render(request, 'contractor/contractordetail.html', {
             'contractor': contractor,
             'ratings': ratings, 
             'form': form, 
