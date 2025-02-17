@@ -57,7 +57,7 @@ class ContractorRating(models.Model):
 
     def __str__(self):
         return f"{self.creator.username} rated {self.contractor.username} {self.rating} stars"    
-    
 
-    
+
+
     
