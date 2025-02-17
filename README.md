@@ -2,7 +2,7 @@
 
 (Developers: Anish Fatima, Mitali Chavan, Adam Campbell, Isaac Nicholls )
 
-[Am i reponsive](/assets/images-readme/responsivehack.png)
+![Am I Responsive](/assets/images-readme/responsivehack.png)
 
 
 ## Live website
@@ -149,7 +149,7 @@ Here are the basic wire-frames we used to establish the design for the site:
 
 ## Data Model 
 
-- ERD Model 
+- ![erddiagram](/assets/images-readme/erddiagram.png)
 
 
 
@@ -222,20 +222,18 @@ We used our team to manually test all views and forms in order to determin that 
 
 ## Lighthouse testing
 
-- [lighthouse1](/assets/images-readme/lighthouse1.png)
-- [lighthouse2](/assets/images-readme/lighthouse2.png)
-- [lighthouse3](/assets/images-readme/lighthouse3.png)
+- ![lighthouse1](/assets/images-readme/lighthouse1.png)
+- ![lighthouse2](/assets/images-readme/lighthouse2.png)
+- ![lighthouse3](/assets/images-readme/lighthouse3.png)
+
 
 ### Validation
 
 All code has been validated through:
-- **HTML**: [W3C Markup Validator]().
+- **HTML**: ![W3C Markup Validator](/assets/images-readme/htmlabout.png).
+- **HTML**: ![W3C Markup Validator](/assets/images-readme/).
   
-  
-- **CSS**: [W3C CSS Validator]().
-
-- **Python** 
-
+- **CSS**: ![W3C CSS Validator](/assets/images-readme/cssvalid.png). 
 
 ## Technology used
 
