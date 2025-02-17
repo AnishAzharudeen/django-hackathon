@@ -137,7 +137,7 @@ def review_edit(request, slug, review_id):
         else:
             messages.add_message(request, messages.ERROR, 'Error updating Review!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))    
 
 
 def review_delete(request, slug, review_id):
@@ -154,7 +154,7 @@ def review_delete(request, slug, review_id):
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))        
 
 
 
