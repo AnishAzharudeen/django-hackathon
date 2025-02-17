@@ -2,17 +2,17 @@
 
 (Developers: Anish Fatima, Mitali Chavan, Adam Campbell, Isaac Nicholls )
 
-![am i responive]![Am i reponsive]()
+[Am i reponsive](/assets/images-readme/responsivehack.png)
 
 
 ## Live website
 
-Link to live website:[]()
+Link to live website:(https://contract-connect-0afa001eb2c1.herokuapp.com/)
 
 ## Overview
 
 ### Purpose
-For contractors, out site offers a user-friendly interface to create comprehensive profiles, including their qualifications, work experience, and areas of expertise. They can also manage their availability by updating their calendar, making it easier for clients to find and book them for projects. Clients, on the other hand, benefit from advanced search functionalities that allow them to filter contractors based on their specific needs. Once they find a suitable match, clients can view detailed profiles, read reviews, and contact contractors directly through the platform to discuss project details and requirements. This streamlined approach ensures that both clients and contractors can connect efficiently, leading to successful project completions.
+For contractors, our site offers a user-friendly interface to create comprehensive profiles, including their qualifications, work experience, and areas of expertise. They can also manage their availability by updating their calendar, making it easier for clients to find and book them for projects. Clients, on the other hand, benefit from advanced search functionalities that allow them to filter contractors based on their specific needs. Once they find a suitable match, clients can view detailed profiles, read reviews, and contact contractors directly through the platform to discuss project details and requirements. This streamlined approach ensures that both clients and contractors can connect efficiently, leading to successful project completions.
 
 ### Target Audience
 The target audience is : 
@@ -21,131 +21,106 @@ Clients: Homeowners, property managers, and business owners searching for qualif
 
 ## User Stories
 
-### Must-Have User Stories:
-
-1. ##### Customer Registration 
-
-
-
+1. ## Customer Registration 
+- As a contractor, I want to register on the site so that I can create a profile and be discovered by clients.
 ##### Acceptance Criteria
-
+- A contractor can fill out a registration form with required fields (e.g., name, email, password).
+- Upon successful registration, the contractor receives a confirmation email.
+- The contractor is redirected to the login page after registration.
 ##### Tasks
+- Create a registration form for contractors.
+- Implement backend logic to save contractor details in the database.
+- Redirect the contractor to the login page upon successful registration.
 
-
-2. ##### Login/Log-out
-
- As a Customer I can **Login and Log-out of the site and see my login status** so that I can **access my personal information and order history and know what account is using the site**
-
+2. ## Login/Log-out
+- As a contractor, I want to log in using my registered email and password so that I can access and update my profile.
 ##### Acceptance Criteria
-The Login/Logout screen is in place.
-There is a statement in the header that shows weather a user is logged in and if so which user.
+- A contractor can log in using their registered email and password.
+- The contractor is redirected to their profile page upon successful login.
 ##### Tasks
-Create/alter the form for the Login/Logout in forms.py
-Create Login/Logout html
+- Create a login form for contractors.
+- Implement authentication logic.
+- Redirect the contractor to their profile page upon successful login.
 
-3. ##### Navbar 
-
-As a customer I can **use a navbar** so that I can **easily navigate between all pages/features of the site**
-
+3. ## Enter Availability Dates 
+- As a contractor, I want to enter and save the dates I am available for work so that clients can see when I am free to work.
 ##### Acceptance Criteria
-A navbar is in place on all relevant pages
-The navbar is responsive to different screen-sizes
+- A contractor can enter and save the dates they are available for work.
+- The availability dates are displayed on the contractor's profile.
 ##### Tasks
-Code navbar in base.html
-add bootstrap or other responsiveness using a burger icon etc
+- Add a calendar input field for contractors to enter availability dates.
+- Save the entered dates in the database.
+- Display the availability dates on the contractor's profile page.
 
-4. ##### Home Page
-
-As a customer I can **see a clean easy to navigate homepage when I load the sites URL** so that I can **easily take in and move between the sites features leading to a fun shopping experience**
-
+4. ## Update Contractor Profile
+- As a contractor, I want to update my profile information (e.g., skills, experience, contact details) so that clients have the most current details about my skills and availability.
 ##### Acceptance Criteria
-The homepage loads and looks good
--The eye is drawn in a logical fashion around the home page
+- A contractor can update their profile information.
+- The updated information is saved and displayed on the contractor's profile.
 ##### Tasks
-Home page HTML in place
-Home page Styling via CSS in place
-Possibility of some Javascript for modals or Hero-image interactivity/ movement
+- Create an editable profile form for contractors.
+- Implement backend logic to save the updated profile information.
+- Display the updated information on the contractor's profile page.
 
-5. #####
-
-
+5. ## Client Registration
+- As a client, I want to register on the site so that I can search for contractors.
 ##### Acceptance Criteria
-
+- A client can fill out a registration form with required fields (e.g., name, email, password).
+- Upon successful registration, the client receives a confirmation email.
+- The client is redirected to the login page after registration.
 ##### Tasks
+- Create a registration form for clients.
+- Implement backend logic to save client details in the database.
+- Redirect the client to the login page upon successful registration.
 
-
-6. ##### Admin Manage Products
-
-
-
+6. ## Client Login
+- As a client, I want to log in using my registered email and password so that I can access the search and contractor details pages.
 ##### Acceptance Criteria
-
+- A client can log in using their registered email and password.
+- The client is redirected to the search page upon successful login
 ##### Tasks
+- Create a login form for clients.
+- Implement authentication logic.
+- Redirect the client to the search page upon successful login.
 
-
-7. ##### 
-
-
-
+7. ## Search for Contractors
+- As a client, I want to search for contractors based on specific criteria (e.g., location, availability) so that I can find the right contractor for my project.
 ##### Acceptance Criteria
-
+- A client can search for contractors based on specific criteria.
+- The search results display a list of contractors that match the criteria.
 ##### Tasks
+- Create a search form with filters for location and availability.
+- Implement backend logic to query the database based on search criteria.
+- Display the search results as a list of contractors.
 
-
-### Should-Have User Stories
-
-1. ##### 
-
-
-
+8. ## View Contractor Profile
+- As a client, I want to view a contractor's profile page with detailed information and contact details so that I can see their details and contact information.
 ##### Acceptance Criteria
-
+- A client can view a contractor's profile page with detailed information and contact details.
+- The profile page displays the contractor's availability, skills, and reviews.
 ##### Tasks
+- Create a profile page template for contractors.
+- Populate the profile page with contractor details from the database.
+- Display the contractor's availability, skills, and reviews on the profile page.
 
-
-2. ##### 
-
-
+9. ## Leave Review for Contractor
+- As a client, I want to leave a review for a contractor I have worked with so that other clients can benefit from my experience.
 ##### Acceptance Criteria
-
+- A client can leave a review for a contractor.
+- The review is saved and displayed on the contractor's profile page.
 ##### Tasks
+- Create a review form for clients.
+- Implement backend logic to save the review in the database.
+- Display the review on the contractor's profile page.
 
-
-3. ##### About Page
-
-
-
+10. ## View Reviews
+- As a client, I want to see reviews left by other clients so that I can make a more informed decision when choosing a contractor.
 ##### Acceptance Criteria
-
+- A client can see reviews left by other clients on a contractor's profile page.
+- Reviews are displayed in chronological order with the most recent review at the top.
 ##### Tasks
-
-
-### Could-Have User Stories
-
-1. ##### 
-
-
-
-##### Acceptance Criteria
-
-##### Tasks
-
-
-2. #####
-
-
-##### Acceptance Criteria
-
-##### Tasks
-
-
-3. ##### 
-
-
-##### Acceptance Criteria
-
-##### Tasks
-
+- Implement logic to fetch reviews from the database.
+- Display the fetched reviews on the contractor's profile page in chronological order.
 
 
 ## Design Decisions
@@ -154,19 +129,33 @@ Possibility of some Javascript for modals or Hero-image interactivity/ movement
 
 Here are the basic wire-frames we used to establish the design for the site:
 
-![wireframes](wireframe.png)
-
-- Wireframe text
+![wireframes](/assets/images-readme/wireframe/Wireframe_ContactForm_Desktop.png)
+![wireframes](/assets/images-readme/wireframe/Wireframe_ContractorDetails_Desktop.png)
+![wireframes](/assets/images-readme/wireframe/Wireframe_LandingPage_Desktop_LoggedIn.png)
+![wireframes](/assets/images-readme/wireframe/Wireframe_Register_Desktop.png)
+![wireframes](/assets/images-readme/wireframe/Wireframe_SearchListing_Desktop.png)
+![wireframes](/assets/images-readme/wireframe/Wireframe_UpdateForm_Desktop.png)
 
 ### Colors and Font 
 
+- It was decided to user font styling that would be easy to read and accessible to all visitors. 
+![font](/assets/images-readme/fonthack2.png)
+
+- We wanted to use colours that were accessible, easy to view but also with some interest and a bit of fun so that the users would feel like they wished to stay and view the site. 
+
+![colours](/assets/images-readme/coolers2.png)
+
 ## AI Tools Usage
 
-### Chat-GPT
+### Chat-GPT / Co pilot
 
-- Ways we have used ai
+- Code Completion: AI-assisted code completion has accelerated the development process by suggesting context-aware code snippets, reducing manual coding effort.
 
-- more ways we have used AI
+- Debugging: AI-powered debugging tools have helped identify and rectify code errors, ensuring smoother functionality.
+
+- Imaging: AI-driven imaging tools have assisted in generating and editing visuals, creating a more engaging user experience on the website.
+
+- Text Population: AI has been utilized to auto-generate text for user profiles, form fields, and other content areas, ensuring consistency and saving time.
 
 ## Features Implementation
 
@@ -179,11 +168,6 @@ A responsive navigation bar is in place. Concentrating on 'mobile first' design,
 ### Clear indication as to whether the user is logged in or out at all times
 
 As mentioned above the nav bar displays user login status with the message 'You are not logged in' or 'You are logged in as XXXXX'
-
-### Pagination
-
-This feature forms the list of 2x2 or 3x2 product ranges or products and generates the next and previous buttons dependent on the users position in the content.
-
 
 ### Sign in form
 
@@ -198,28 +182,25 @@ This form has a Django allauth template which has been modified to inherit from 
 This form has a Django allauth template which has been modified to inherit from our base to take on the sites main styling.
 
 ### Home Page
+- TheHome page is a simple homepage displaying our imaging, styling and allowing the user to see information and then decide where to go from there.
 
+### About Page
+- A simple about page is included, to display FAQ's that might help the UX and also a short explanation about the site. 
 
-### Page
+###  Contractor Sign up page
+- Contractor can sign up as a contractor which will then take them to their profile page, this page can be edited after wards if needed. 
 
+###  Contractor Profile Page
+- Profile page will display imaging, information and other profile details which will allow a user to see availability etc, as well as leave reviews. 
 
-
-###  Page
-
-
+### Search Page
+- This allows clients to search for the contractor based upon the skills they require, the location and the availability. It will then render a list of results. 
 
 ### Advanced Features (Should-Haves)
 
 ### Django alert messages
 
 Every time there is a change in data the user is alerted. For example when a review is created, or edited and the same for comments. Also there is a notification when the user logs in or out to confirm their action. These appear in the blank space in the middle of the navigation bar to be in the users eyeline when possible.
-
-
-### Optional Features (Could-Haves)
-
-### 
-
-
 
 
 ## Testing and Validation
@@ -237,6 +218,7 @@ All code has been validated through:
 - **CSS**: [W3C CSS Validator]().
 
 - **Python** 
+
 
 ## Technology used
 
@@ -307,12 +289,7 @@ All code has been validated through:
 15. [Python Enhancement Proposals](https://peps.python.org/pep-0008/)
         - for advice on PEP8 compliance
 16. [Django framework](https://www.djangoproject.com/)
-17. [Heroku](https://dashboard.heroku.com/apps) - for deployment. 
-
-### GitHub Copilot
-Brief reflection on the effectiveness of using AI tools for debugging and validation.  
-
-**Guidance:** Reflect on how GitHub Copilot assisted with debugging and validation, particularly any issues it helped resolve.
+17. [Heroku](https://dashboard.heroku.com/apps) - for deployment.  
 
 # Deployment #
 
@@ -354,6 +331,8 @@ Note: The difference between clone and fork is, you need permissions to push bac
 
 ## Reflection on Development Process
 
+- 
+
 ### Challenges
 
 - Most challenging aspects
@@ -364,4 +343,5 @@ Note: The difference between clone and fork is, you need permissions to push bac
 
 ### Acknowledgements
 
-- 
+- We would like to thank Emma and Roo at CI for their help for this project, keeping us on track and to Roo for helping sovle coding problems when they arose. 
+- We would like to thanks all members of the Hackathon team, for contributions and develoment, and a smooth project as a team. 
