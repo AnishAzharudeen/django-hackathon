@@ -71,7 +71,7 @@ def become_contractor(request):
 
 
 def contractor_detail(request, user_id):
-    template= 'contractor/contractdetail.html'
+    template= 'contractor/contractordetail.html'
     contractor = get_object_or_404(UserProfile, user_id=user_id)
     ratings = ContractorRating.objects.filter(contractor=user_id)
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def contractor_detail(request, user_id):
             return redirect('contractordetail' , user_id=user_id)
     else:
         form = ContractorRatingForm()
-        return render(request, 'contractor/contractdetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
+        return render(request, 'contractor/contractordetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
 
 
 #  Edit and delete rating
@@ -113,7 +113,7 @@ def review_edit(request, slug, review_id):
         else:
             messages.add_message(request, messages.ERROR, 'Error updating Review!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))    
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))    
 
 
 def review_delete(request, slug, review_id):
@@ -130,7 +130,7 @@ def review_delete(request, slug, review_id):
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('contractdetail', args=[slug]))        
+    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))        
 
 
 
