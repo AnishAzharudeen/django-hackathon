@@ -56,19 +56,20 @@
           <h3>Reviews:</h3>
           {% for rating in ratings %}
           <div class="review">
-            <p><strong>{{ rating.creator.username }}:</strong> {{ rating.review }}</p>
+            <p><strong>{{ rating.creator.username }}:</strong><span id="review{{ rating.id }}">
+                {{rating.review}}</span></p>
             <p>Rating:
               {% for i in "12345" %}
-              {% if i <= rating.rating %} <i class="fas fa-star"></i>
+              {% if i|add:0 <= rating.rating %} <i class="fa-solid fa-star"></i>
                 {% else %}
-                <i class="far fa-star"></i>
+                <i class="fa-regular fa-star"></i>
                 {% endif %}
                 {% endfor %}
             </p>
 
             {% if rating.creator == user %}
-            <button class="btn btn-delete btn-lg" review-id="{{ review.id }}">Delete</button>
-            <button class="btn btn-edit btn-lg" review-id="{{ review.id }}">Edit</button>
+            <button class="btn btn-delete btn-lg" review-id="{{ rating.id }}">Delete</button>
+            <button class="btn btn-edit btn-lg" review-id="{{ rating.id }}">Edit</button>
 
             {% endif %}
           </div>
@@ -77,44 +78,11 @@
       </div>
       <div class="d-none d-md-block col-md-6 masthead-image">
         <!--<img src="{% static 'images/default.jpg' %}" class="scale reduced-size" alt="placeholder"> -->
-        
+
         <img src="{{ contractor.profile_image.url }}" class="scale" alt="{{ contractor.user.username}}">
       </div>
     </div>
   </div>
-</div>
-
-<!-- Displaying Comments -->
-
-
-<div class="card-body">
-  <!-- We want a for loop inside the empty control tags
-      to iterate through each comment in comments -->
-  {% for review in reviews %}
-  <div class="p-2 reviews
-      {% if  not review.approved and review.creator == user %}
-        faded{% elif not review.approved %} d-none{% endif %}">
-    <p class="font-weight-bold">
-      {{ review.creator }}
-      <span class="font-weight-normal">
-        {{ review.created_on }}
-      </span> wrote:
-    </p>
-    <div id="review{{ review.id }}">
-      {{ contractorRating.review | linebreaks }}
-    </div>
-    {% if not review.approved and review.creator == user %}
-    <p class="approval">
-      This review is awaiting approval
-    </p>
-    {% endif %}
-    {% if user.is_authenticated and review.creator == request.useruser %}
-    <button class="btn btn-delete btn-lg" data-review-id="{{ review.id }}">Delete</button>
-    <button class="btn btn-edit btn-lg" data-review-id="{{ review.id }}">Edit</button>
-    {% endif %}
-  </div>
-  <!-- Our for loop ends here -->
-  {% endfor %}
 </div>
 
 </div>
@@ -125,10 +93,10 @@
       <div class="card-body">
         {% if user.is_authenticated %}
         <h3>Leave a Review:</h3>
-        <form id="contractoratingForm" method="post" style="margin-top: 1.3em;">
+        <form id="contractor-rating-form" method="post" style="margin-top: 1.3em;">
           {% csrf_token %}
           {{ form|crispy }}
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button id="submit-button" type="submit" class="btn btn-primary">Submit</button>
         </form>
         {% else %}
         <p style="color: rgb(11, 34, 37);"><a href="{% url 'account_login' %}">Log in</a> to leave a comment</p>

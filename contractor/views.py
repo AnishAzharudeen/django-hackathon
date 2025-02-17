@@ -79,7 +79,7 @@ def become_contractor(request):
             contractor.user = request.user
             contractor.is_contractor = True
             contractor.save()
-            return HttpResponse("You are now a contractor")
+            return redirect('index')
         else:
             print("Form is invalid")
             print(form.errors)
@@ -98,7 +98,8 @@ def contractor_detail(request, user_profile_id):
     """
     template= 'contractor/contractdetail.html'
     contractor = get_object_or_404(UserProfile, id=user_profile_id)
-    ratings = ContractorRating.objects.filter(contractor=user_profile_id)
+    ratings = ContractorRating.objects.filter(contractor=contractor.user)
+    print(ratings)
     is_own_profile = contractor.user == request.user
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
@@ -111,7 +112,7 @@ def contractor_detail(request, user_profile_id):
             messages.add_message(
             request, messages.SUCCESS,
             'Review submitted and awaiting approval')
-            return redirect('contractordetail' , user_id=user_profile_id)
+            return redirect('contractordetail' , user_profile_id=user_profile_id)
     else:
         form = ContractorRatingForm()
         availability_json = json.dumps([str(date) for date in contractor.availability])
@@ -134,44 +135,36 @@ def edit_contractor_profile(request, user_profile_id):
 
 #  Edit and delete rating
 
-def review_edit(request, slug, review_id):
+def review_edit(request, user_profile_id, review_id):
     """
     view to edit comments
     """
+    print(user_profile_id)
+    print(review_id)
     if request.method == "POST":
-
-        queryset = ContractorRating.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
         review = get_object_or_404(ContractorRating, pk=review_id)
         review_form = ContractorRatingForm(data=request.POST, instance=review)
-
         if review_form.is_valid() and review.creator == request.user:
-            review = review_form.save(commit=False)
-            review.contractor = post
-            review.approved = False
-            review.save()
+            review = review_form.save()
             messages.add_message(request, messages.SUCCESS, 'Review Updated!')
         else:
             messages.add_message(request, messages.ERROR, 'Error updating Review!')
 
-    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))    
+    return HttpResponseRedirect(reverse('contractordetail', args=[user_profile_id]))    
 
 
-def review_delete(request, slug, review_id):
+def review_delete(request, user_profile_id, review_id):
     """
     view to delete comment
     """
-    queryset = ContractorRating.objects.filter(status=1)
-    post = get_object_or_404(queryset, slug=slug)
     review = get_object_or_404(ContractorRating, pk=review_id)
-
     if review.creator == request.user:
         review.delete()
         messages.add_message(request, messages.SUCCESS, 'Review deleted!')
     else:
         messages.add_message(request, messages.ERROR, 'You can only delete your own reviews!')
 
-    return HttpResponseRedirect(reverse('contractordetail', args=[slug]))        
+    return HttpResponseRedirect(reverse('contractordetail', args=[user_profile_id]))        
 
 
 
