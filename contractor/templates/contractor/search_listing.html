@@ -2,47 +2,66 @@
 
 {% load static %}
 
+{% block title %}
+Search List
+{% endblock %}
+
 {% block content %}
 
 <div class="container-fluid">
     <div class="row">
         <!-- Search Area -->
-        <div class="search-area">
-            <form action="" method="get">
+        <div class="search-area justify-content-center">
+            <form action="" method="get" class="align-content-center">
                 <p>Search for a specific skill or location:</p>
                 <input name="q" type="text" placeholder="Search skills or location...">
-                <button id="searchButton" type="submit" class="btn btn-primary btn-lg">Search</button>
+                <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
 
         <!-- Check if Logged In -->
-        <div class="filter-result">
+        <div class="filter-result justify-content-between">
             {% if user.is_authenticated %}
             <!-- Contractor Listing Posts -->
             {% for contractor in userprofile_list %}
             <div class="card result-card d-flex flex-row flex-nowrap align-content-center">
-                <div class="profile-img d-md-flex col-sm-auto col-md-2">
-                    <img src="{{ contractor.profile_image.url }}" class="scale img-fluid reduced-size" alt="LogoImg">
+                <div class="profile-img d-md-flex col-5 col-sm-3 col-md-2">
+                    <img src="{% static 'images/default.jpg' %}" class="scale img-fluid reduced-size" alt="LogoImg">
                 </div>
                 <div class="result-list d-flex flex-row flex-nowrap">
-                    <div class="result-name d-md-flex col-sm-auto col-md-2">
+                    <div class="result-name flex-column d-md-flex">
                         <!-- Contractor Display Name -->
                         <h5 class="text-center text-md-left">{{ contractor.user.username }}</h5>
                         <!-- Rating -->
+                        <p class="card-text"><strong>Average Rating:</strong>
+                            {% if contractor.average_rating %}
+                        <div class="rating">
+                            {% for i in "12345" %}
+                            {% if i|add:"0" <= contractor.average_rating %} <i class="fas fa-star"></i>
+                                {% else %}
+                                <i class="far fa-star"></i>
+                                {% endif %}
+                                {% endfor %}
+                                ({{ contractor.average_rating|floatformat:1 }} / 5)
+                        </div>
+                        {% else %}
+                        Not Rated
+                        {% endif %}
+                        </p>
                     </div>
                 </div>
-                <div class="result-list d-flex flex-row flex-nowrap">
-                    <div class="job-content d-flex flex-column flex-wrap d-none d-md-flex col-md-5">
-                        <ul class="d-flex flex-column flex-wrap text-capitalize result-listing-ul">
-                            <!-- Contractor Locations -->
-                            <li class="">
-                                <i class="fa-solid fa-location-dot"></i> {{ contractor.locations | join:", " }}
-                            </li>
+                <div class="result-list d-flex flex-row flex-wrap">
+                    <div class="job-content d-flex flex-column flex-wrap d-none d-md-flex">
+                        <ul class="d-flex flex-column flex-wrap text-capitalize result-listing-ul card-text">
                             <!-- Contractor Skills -->
                             <li class="">
                                 <i class="fa-solid fa-circle-info"></i> {{ contractor.skills | join:", " }}
                             </li>
-                            <!-- Contact -->
+                            <!-- Contractor Locations -->
+                            <li class="">
+                                <i class="fa-solid fa-location-dot"></i> {{ contractor.locations | join:", " }}
+                            </li>
+                            <!-- Contractor Availability -->
                             <li class="">
                                 <i class="fa-solid fa-calendar-days"></i> {{ contractor.availability | join:", " }}
                             </li>
@@ -51,9 +70,10 @@
                 </div>
 
                 <!-- Profile Link -->
-                <div class="my-4 flex-shrink-0 mr-right d-md-flex col-auto align-content-center align-items-center justify-content-end">
+                <div
+                    class="my-4 flex-shrink-0 mr-auto d-md-flex align-content-center align-items-center">
                     <a href="{% url 'contractordetail' contractor.user.id %}"
-                        class="btn d-block w-100 d-sm-inline-block btn-light">View Profile</a>
+                        class="btn d-block w-100 d-sm-inline-block btn-primary">View Profile</a>
                 </div>
             </div>
             {% endfor %}

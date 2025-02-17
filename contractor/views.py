@@ -159,7 +159,7 @@ from django.db.models import Q
 
 # Search List Page
 class searchlist(generic.ListView):
-    queryset = UserProfile.objects.filter(is_contractor=True)
+    # queryset = UserProfile.objects.filter(is_contractor=True)
     template_name = 'contractor/search_listing.html'
     paginate_by = 10
 
@@ -169,8 +169,8 @@ class searchlist(generic.ListView):
         if query != None:
             queryset = UserProfile.objects.filter(
                 is_contractor=True and
-                (Q(skills__icontains=query) |
-                Q(locations__icontains=query))
+                (Q(skills__overlap=query) |
+                Q(locations__overlap=query))
             )
         else:
             queryset = UserProfile.objects.filter(is_contractor=True)
