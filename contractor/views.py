@@ -87,10 +87,10 @@ def become_contractor(request):
     
 
 
-def contractor_detail(request, user_id):
-    template= 'contractor/contractordetail.html'
-    contractor = get_object_or_404(UserProfile, user_id=user_id)
-    ratings = ContractorRating.objects.filter(contractor=user_id)
+def contractor_detail(request, user_profile_id):
+    template= 'contractor/contractdetail.html'
+    contractor = get_object_or_404(UserProfile, id=user_profile_id)
+    ratings = ContractorRating.objects.filter(contractor=user_profile_id)
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
         if form.is_valid():
@@ -105,7 +105,14 @@ def contractor_detail(request, user_id):
             return redirect('contractordetail' , user_id=user_id)
     else:
         form = ContractorRatingForm()
-        return render(request, 'contractor/contractordetail.html', {'contractor': contractor,'ratings': ratings, 'form': form, 'user': request.user})
+        availability_json = json.dumps([str(date) for date in contractor.availability])
+        return render(request, 'contractor/contractdetail.html', {
+            'contractor': contractor,
+            'ratings': ratings, 
+            'form': form, 
+            'user': request.user,
+            'availability_json': availability_json
+        })
 
 
 #  Edit and delete rating

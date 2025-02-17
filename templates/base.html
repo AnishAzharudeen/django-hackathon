@@ -6,7 +6,7 @@
 {% url 'become_contractor' as become_contractor_url %}
 {% url 'contractor_profile' user.userprofile.id as contractor_profile %}
 {% url 'contractordetail' contractor.user.id as contractordetail %}
-{% url 'contractor_list' as contractor_list  %}
+{% url 'contractor_list' as contractor_list %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -61,13 +61,13 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == contractor_list %}active{% endif %}" aria-current="page"
-                            href="{% url 'contractor_list' %}">Profiles</a>
+                        <a class="nav-link {% if request.path == contractor_list %}active{% endif %}"
+                            aria-current="page" href="{% url 'contractor_list' %}">Profiles</a>
                     </li>
                     {% if user.userprofile.is_contractor %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == contractordetail %}active{% endif %}"
-                            aria-current="page" href="{% url 'contractordetail' contractor.user.id %}">View
+                            aria-current="page" href="{% url 'contractordetail' user.userprofile.id %}">View
                             Profile</a>
                     </li>
                     {% else %}
