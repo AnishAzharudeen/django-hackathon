@@ -9,8 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 # Create your views here.
-def contractor_profile(request, contractor_id):
 
+
+# Either remove, or turn into contractor profile edit view (some logic
+# can be reused)
+def contractor_profile(request, contractor_id):
     # Get the contractors UserProfile object. Automatically send 404 is the
     # profile does not exist, or if it is not a contractor profile. 
     contractor = get_object_or_404(UserProfile, pk=contractor_id, is_contractor=True)
@@ -56,6 +59,9 @@ def split_string(string):
 
 @login_required
 def become_contractor(request):
+    """
+    The view function for the form to become a contractor.
+    """
     profile = request.user.userprofile
     if profile.is_contractor:
         return HttpResponse("You are already a contractor")
@@ -79,7 +85,6 @@ def become_contractor(request):
             print(form.errors)
     # End post request handling
     return render(request, 'contractor/become_contractor.html', {
-        'form': form,
         'skills': CONTRACTOR_SKILLS_CHOICES,
         'locations': CONTRACTOR_LOCATIONS_CHOICES
     })
@@ -88,9 +93,13 @@ def become_contractor(request):
 
 
 def contractor_detail(request, user_profile_id):
+    """
+    The view function for a contractor profile.
+    """
     template= 'contractor/contractdetail.html'
     contractor = get_object_or_404(UserProfile, id=user_profile_id)
     ratings = ContractorRating.objects.filter(contractor=user_profile_id)
+    is_own_profile = contractor.user == request.user
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
         if form.is_valid():
@@ -102,17 +111,25 @@ def contractor_detail(request, user_profile_id):
             messages.add_message(
             request, messages.SUCCESS,
             'Review submitted and awaiting approval')
-            return redirect('contractordetail' , user_id=user_id)
+            return redirect('contractordetail' , user_id=user_profile_id)
     else:
         form = ContractorRatingForm()
         availability_json = json.dumps([str(date) for date in contractor.availability])
-        return render(request, 'contractor/contractdetail.html', {
+        return render(request, 'contractor/contractordetail.html', {
             'contractor': contractor,
             'ratings': ratings, 
             'form': form, 
             'user': request.user,
-            'availability_json': availability_json
+            'availability_json': availability_json,
+            'is_own_profile': is_own_profile
         })
+
+@login_required
+def edit_contractor_profile(request, user_profile_id):
+    if request.user.userprofile.id != user_profile_id:
+        return HttpResponse("You do not have permission to edit this profile")
+    return render(request, 'contractor/edit_contractor_profile.html')
+
 
 
 #  Edit and delete rating
