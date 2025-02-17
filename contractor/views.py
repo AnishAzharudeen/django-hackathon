@@ -9,8 +9,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
 # Create your views here.
-def contractor_profile(request, contractor_id):
 
+
+# Either remove, or turn into contractor profile edit view (some logic
+# can be reused)
+def contractor_profile(request, contractor_id):
     # Get the contractors UserProfile object. Automatically send 404 is the
     # profile does not exist, or if it is not a contractor profile. 
     contractor = get_object_or_404(UserProfile, pk=contractor_id, is_contractor=True)
@@ -56,6 +59,9 @@ def split_string(string):
 
 @login_required
 def become_contractor(request):
+    """
+    The view function for the form to become a contractor.
+    """
     profile = request.user.userprofile
     if profile.is_contractor:
         return HttpResponse("You are already a contractor")
@@ -87,9 +93,13 @@ def become_contractor(request):
 
 
 def contractor_detail(request, user_profile_id):
+    """
+    The view function for a contractor profile.
+    """
     template= 'contractor/contractdetail.html'
     contractor = get_object_or_404(UserProfile, id=user_profile_id)
     ratings = ContractorRating.objects.filter(contractor=user_profile_id)
+    is_own_profile = contractor.user == request.user
     if request.method == 'POST':
         form = ContractorRatingForm(request.POST)
         if form.is_valid():
@@ -110,8 +120,16 @@ def contractor_detail(request, user_profile_id):
             'ratings': ratings, 
             'form': form, 
             'user': request.user,
-            'availability_json': availability_json
+            'availability_json': availability_json,
+            'is_own_profile': is_own_profile
         })
+
+@login_required
+def edit_contractor_profile(request, user_profile_id):
+    if request.user.userprofile.id != user_profile_id:
+        return HttpResponse("You do not have permission to edit this profile")
+    return render(request, 'contractor/edit_contractor_profile.html')
+
 
 
 #  Edit and delete rating
@@ -187,18 +205,25 @@ class searchlist(generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        query = [self.request.GET.get("q")]
+        query = self.request.GET.get("q")
 
-        if query == None:
-            queryset = UserProfile.objects.filter(is_contractor=True)
-        else:
-            queryset = UserProfile.objects.filter(
-                is_contractor=True and
-                (Q(skills__overlap=query) |
-                Q(locations__overlap=query))
-            )
+        if not query:
+            return UserProfile.objects.filter(is_contractor=True)
         
-        return queryset
+        
+        query = query.lower()
+        
+        return UserProfile.objects.filter(
+            is_contractor=True
+        ).filter(
+            Q(skills__overlap_similar=[query]) | Q(locations__overlap_similar=[query])
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["search_form"] = SearchForm()
+        return context
+
     
 # Advanced Search
 @login_required
@@ -207,20 +232,22 @@ def advanced_search(request):
     Allows users to make an advanced search
     """
 
+    search_form = SearchForm()
+
     if request.method == "POST":
         search_form = SearchForm(request.POST)
-        search_skills = request.POST.get('skills')
-        search_area = request.POST.get('locations')
-        queryset = UserProfile.objects.filter(skills=search_skills, locations=search_area)
+        search_skills = request.POST.getlist('skills')
+        search_area = request.POST.getlist('locations')
+        queryset = UserProfile.objects.filter(skills__overlap=search_skills, locations__overlap=search_area)
 
         return render(
             request, 'contractors/search_listing.html',
-            {"userprofile_list": queryset}
+            {"userprofile_list": queryset, 'search_form': search_form}
         )
     else:
-        search_form = SearchForm()
         queryset = UserProfile.objects.filter(is_contractor=True)
-        return render(
-            request, 'contractors/search_listing.html',
-            {"userprofile_list": queryset}
-        )
+
+    return render(
+        request, 'contractors/search_listing.html',
+        {"userprofile_list": queryset, 'search_form': search_form}
+    )

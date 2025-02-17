@@ -14,7 +14,7 @@
           <h5 class="card-title">{{ contractor.user.username }}</h5>
           <p class="card-text"><strong>Skills:</strong> {{ contractor.skills | join:", " }}</p>
           <div class="d-none d-md-block col-md-6 masthead-image">
-            <img src="{% static 'images/default.jpg' %}" class="img-fluid" alt="placeholder">
+            <img src="{{ contractor.profile_image.url }}" class="img-fluid" alt="placeholder">
           </div>
           <p class="card-text"><strong>Average Rating:</strong>
             {% if contractor.average_rating %}

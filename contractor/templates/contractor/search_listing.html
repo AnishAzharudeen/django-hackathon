@@ -25,18 +25,22 @@ Search List
                         <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Advanced Search</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
+
+                    <!-- Filter Form -->
                     <div class="offcanvas-body">
-                        <div class="input-group flex-nowrap">
-                            <form action="" method="post" class="align-content-center">
+                        <div class="input-group flex-wrap flex-column">
+                            <form action="{% url 'advanced_search' %}" method="POST" class="align-content-left">
                                 <p>Search for a specific skill or location:</p>
-                                {{ search_form | crispy }}
                                 {% csrf_token %}
-                                <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+                                {% crispy search_form %}
+                                <button type="submit" class="btn btn-primary">Search</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Search Form -->
             <form action="" method="get" class="align-content-center">
                 <p>Search for a specific skill or location:</p>
                 <input name="q" type="text" placeholder="Search skills or location...">
@@ -51,7 +55,7 @@ Search List
             {% for contractor in userprofile_list %}
             <div class="card result-card d-flex flex-row flex-nowrap align-content-center">
                 <div class="profile-img d-md-flex col-5 col-sm-3 col-md-2">
-                    <img src="{% static 'images/default.jpg' %}" class="scale img-fluid reduced-size" alt="LogoImg">
+                    <img src="{% if not contractor.profile_image %} {% static 'images/default.jpg' %} {% else %} {{ contractor.profile_image.url }} {% endif %}" class="scale img-fluid reduced-size" alt="LogoImg">
                 </div>
                 <div class="result-list d-flex flex-row flex-nowrap">
                     <div class="result-name flex-column d-md-flex align-items-start">
@@ -96,7 +100,7 @@ Search List
 
                 <!-- Profile Link -->
                 <div class="my-4 flex-shrink-0 mr-auto d-md-flex align-content-center align-items-center">
-                    <a href="{% url 'contractordetail' contractor.user.id %}"
+                    <a href="{% url 'contractordetail' contractor.id %}"
                         class="btn d-block w-100 d-sm-inline-block btn-primary">View Profile</a>
                 </div>
             </div>
