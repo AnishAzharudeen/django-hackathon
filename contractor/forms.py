@@ -35,7 +35,4 @@ class SearchForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['skills', 'locations']
-        widgets = {
-            'skills': forms.CheckboxSelectMultiple(choices=CONTRACTOR_SKILLS_CHOICES),
-            'locations': forms.CheckboxSelectMultiple(choices=CONTRACTOR_LOCATIONS_CHOICES),
-        }
+        
