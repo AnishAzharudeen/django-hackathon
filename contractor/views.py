@@ -206,10 +206,12 @@ class searchlist(generic.ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q")
-        query = query.lower()
 
         if not query:
             return UserProfile.objects.filter(is_contractor=True)
+        
+        
+        query = query.lower()
         
         return UserProfile.objects.filter(
             is_contractor=True
