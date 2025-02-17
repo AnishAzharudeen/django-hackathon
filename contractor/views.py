@@ -165,13 +165,13 @@ class searchlist(generic.ListView):
     def get_queryset(self):
         query = [self.request.GET.get("q")]
 
-        if query != None:
+        if query == None:
+            queryset = UserProfile.objects.filter(is_contractor=True)
+        else:
             queryset = UserProfile.objects.filter(
                 is_contractor=True and
                 (Q(skills__overlap=query) |
                 Q(locations__overlap=query))
             )
-        else:
-            queryset = UserProfile.objects.filter(is_contractor=True)
         
         return queryset
