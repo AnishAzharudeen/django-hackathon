@@ -102,7 +102,7 @@ def contractor_detail(request, user_profile_id):
             messages.add_message(
             request, messages.SUCCESS,
             'Review submitted and awaiting approval')
-            return redirect('contractordetail' , user_id=user_id)
+            return redirect('contractordetail' , user_id=user_profile_id)
     else:
         form = ContractorRatingForm()
         availability_json = json.dumps([str(date) for date in contractor.availability])
