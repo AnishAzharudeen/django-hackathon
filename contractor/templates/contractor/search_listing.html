@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}
 Search List
@@ -11,7 +12,31 @@ Search List
 <div class="container-fluid">
     <div class="row">
         <!-- Search Area -->
-        <div class="search-area justify-content-center">
+        <div class="search-area justify-content-evenly">
+            <!-- Side Panel for Advanced Search -->
+            <div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">Advanced Search
+                </button>
+
+                <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
+                    aria-labelledby="offcanvasWithBothOptionsLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Advanced Search</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <div class="input-group flex-nowrap">
+                            <form action="" method="post" class="align-content-center">
+                                <p>Search for a specific skill or location:</p>
+                                {{ search_form | crispy }}
+                                {% csrf_token %}
+                                <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <form action="" method="get" class="align-content-center">
                 <p>Search for a specific skill or location:</p>
                 <input name="q" type="text" placeholder="Search skills or location...">
@@ -70,8 +95,7 @@ Search List
                 </div>
 
                 <!-- Profile Link -->
-                <div
-                    class="my-4 flex-shrink-0 mr-auto d-md-flex align-content-center align-items-center">
+                <div class="my-4 flex-shrink-0 mr-auto d-md-flex align-content-center align-items-center">
                     <a href="{% url 'contractordetail' contractor.user.id %}"
                         class="btn d-block w-100 d-sm-inline-block btn-primary">View Profile</a>
                 </div>

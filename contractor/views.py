@@ -2,11 +2,14 @@ import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import UserProfile, ContractorRating
-from .forms import ContractorDetailsForm, ContractorRatingForm
+from .forms import ContractorDetailsForm, ContractorRatingForm, SearchForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from .utils import CONTRACTOR_SKILLS_CHOICES, CONTRACTOR_LOCATIONS_CHOICES
+
+
 # Create your views here.
 def contractor_profile(request, contractor_id):
 
@@ -159,6 +162,7 @@ from django.db.models import Q
 
 # Search List Page
 class searchlist(generic.ListView):
+    model = UserProfile
     template_name = 'contractor/search_listing.html'
     paginate_by = 10
 
@@ -175,3 +179,28 @@ class searchlist(generic.ListView):
             )
         
         return queryset
+    
+# Advanced Search
+@login_required
+def advanced_search(request):
+    """
+    Allows users to make an advanced search
+    """
+
+    if request.method == "POST":
+        search_form = SearchForm(request.POST)
+        search_skills = request.POST.get('skills')
+        search_area = request.POST.get('locations')
+        queryset = UserProfile.objects.filter(skills=search_skills, locations=search_area)
+
+        return render(
+            request, 'contractors/search_listing.html',
+            {"userprofile_list": queryset}
+        )
+    else:
+        search_form = SearchForm()
+        queryset = UserProfile.objects.filter(is_contractor=True)
+        return render(
+            request, 'contractors/search_listing.html',
+            {"userprofile_list": queryset}
+        )

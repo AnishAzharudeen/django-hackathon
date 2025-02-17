@@ -21,3 +21,13 @@ class ContractorRatingForm(forms.ModelForm):
             'rating': forms.RadioSelect(choices=STAR_RATINGS),
             'review': forms.Textarea(attrs={'rows': 4, 'cols': 40}),
         }
+
+# Search Form
+class SearchForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['skills', 'locations']
+        widgets = {
+            'skills': forms.CheckboxSelectMultiple(choices=CONTRACTOR_SKILLS_CHOICES),
+            'locations': forms.CheckboxSelectMultiple(choices=CONTRACTOR_LOCATIONS_CHOICES),
+        }
