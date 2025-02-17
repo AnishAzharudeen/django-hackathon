@@ -182,24 +182,7 @@ def review_delete(request, user_profile_id, review_id):
 
 
 
-# creating views for contractor listview
-from django.views import generic
-from .models import UserProfile
 
-from django.shortcuts import render
-
-class ContractorList(generic.ListView):
-    model = UserProfile
-    queryset= UserProfile.objects.filter(is_contractor=True)
-    template_name = 'contractor/contractor_list.html'
-    context_object_name = 'contractors'
-    paginate_by = 6
-
-  
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 
 from django.views import generic
