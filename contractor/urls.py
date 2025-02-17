@@ -10,9 +10,8 @@ urlpatterns = [
     path('become-contractor/', views.become_contractor, name='become_contractor'),
     # The form to edit a contractors profile
     path('<int:user_profile_id>/edit-profile/', views.edit_contractor_profile, name='edit_contractor_profile'),
-    path('contractor/<slug:slug>/edit_review/<int:review_id>/', views.review_edit, name='review_edit'),
-    path('contractor/<int:review_id>/edit/', views.review_edit, name='edit_review'),
-    path('review/<int:review_id>/delete/', views.review_delete, name='delete_review'),
+    path('<int:user_profile_id>/edit-review/<int:review_id>/', views.review_edit, name='review_edit'),
+    path('<int:user_profile_id>/delete-review/<int:review_id>/', views.review_delete, name='delete_review'),
     path('contractors/', views.ContractorList.as_view(), name='contractor_list'),
     path('search-list/', views.searchlist.as_view(), name="search_list"),
     path('advanced-search/', views.advanced_search, name="advanced_search"),
